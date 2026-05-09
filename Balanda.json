@@ -1,0 +1,11 @@
+{
+	"id": "Balanda",
+	"name": "Balanda",
+	"display_name": "Balanda",
+	"badge_colour": "9415e3",
+	"author": ["Iva"],
+	"description": "",
+	"prefix": "balda",
+	"main_file": "Balanda.lua",
+	"version": "0.0"
+}
