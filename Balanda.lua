@@ -9,3 +9,12 @@
 --остальное вам легче будет изучить самим в документации 
 --самого smods (https://github.com/Steamodded/smods/wiki/API-Documentation)
 ---------------------------------------------------------------------------------------------------------
+
+SMODS.load_file("content/evo.lua")() --загрузка кода из других файлов
+
+SMODS.Rarity{
+    key = "evo",
+    badge_colour = HEX("9415e3"),
+    text_colour = HEX("ffd18a"),
+    default_weight = 0
+}
