@@ -1,4 +1,4 @@
-function evoCheckStatus(card, context) --Функция для подсчёта ходов эволюции
+function evo_check_status(card, context) --Функция для подсчёта ходов эволюции
     --Контекст, после подсчёта, чтобы изменить текстуру джокера и поменять значение эволюции
     if context.final_scoring_step then
         card.ability.evo_step = card.ability.evo_step + 1
@@ -108,6 +108,6 @@ SMODS.Joker{
                 }
             end
         end
-        evoCheckStatus(card, context)
+        evo_check_status(card, context)
 	end
 }

@@ -10,7 +10,9 @@
 --самого smods (https://github.com/Steamodded/smods/wiki/API-Documentation)
 ---------------------------------------------------------------------------------------------------------
 
-SMODS.load_file("content/evos.lua")() --загрузка кода из других файлов
+SMODS.load_file("lib/hooks.lua")() --загрузка кода из других файлов
+
+SMODS.load_file("content/evos.lua")()
 SMODS.load_file("content/jokers.lua")()
 
 SMODS.Rarity{ --добавление своейв редкости

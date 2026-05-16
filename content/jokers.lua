@@ -12,10 +12,11 @@ SMODS.Joker{
         wday = 0,
         h_size = 0,
         extra = {
-            chips = 100,
-            mult = 10,
+            chips = 50,
+            mult = 8,
             xmult = 1.5,
             dollars = 5,
+            h_size = 1,
             hands = 1,
             discards = 1
 
@@ -23,12 +24,12 @@ SMODS.Joker{
     },
 
     calculate = function(self, card, context)
-        if card.ability.wday == 0 then
+        if card.ability.wday == 0 then --Получаем день недели при получении джокера
             local date = os.date("*t")
             card.ability.wday = date.wday
 
             if card.ability.wday == 6 then --Пятница размер руки
-                card.ability.h_size = 1
+                card.ability.h_size = card.ability.extra.h_size
                 G.hand:change_size(card.ability.h_size)
             end
         end
@@ -65,6 +66,52 @@ SMODS.Joker{
         if card.ability.wday == 5 then --Четверг деньги
             return card.ability.extra.dollars
         end
+    end,
+
+    loc_vars = function (self, info_queue, card)
+        local wday_table = {localize("bda_sun"), localize("bda_mon"), localize("bda_tue"), localize("bda_wed"), localize("bda_thu"), localize("bda_fri"), localize("bda_sat")}
+        local main_end = {
+            {n=G.UIT.C, config={align = "bm", padding = 0.02}, nodes={
+                {n=G.UIT.C, config={align = "m", colour = G.C.BLUE, r = 0.05, padding = 0.05}, nodes={
+                    {n=G.UIT.T, config={text = ' '..(wday_table[card.ability.wday] or localize('k_none'))..' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.3, shadow = true}},
+                }}
+            }}
+        }
+        if card.ability.wday ~= 0 then
+            if card.ability.wday == 1 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_sun_eff', vars = {card.ability.extra.discards}}
+            end
+            if card.ability.wday == 2 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_mon_eff', vars = {card.ability.extra.chips}}
+            end
+            if card.ability.wday == 3 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_tue_eff', vars = {card.ability.extra.mult}}
+            end
+            if card.ability.wday == 4 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_wed_eff', vars = {card.ability.extra.xmult}}
+            end
+            if card.ability.wday == 5 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_thu_eff', vars = {card.ability.extra.dollars}}
+            end
+            if card.ability.wday == 6 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_fri_eff', vars = {card.ability.extra.h_size}}
+            end
+            if card.ability.wday == 7 then
+                info_queue[#info_queue+1] = {set = 'Other', key = 'bda_sat_eff', vars = {card.ability.extra.hands}}
+            end
+        else
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_sun_eff', vars = {card.ability.extra.discards}}
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_mon_eff', vars = {card.ability.extra.chips}}
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_tue_eff', vars = {card.ability.extra.mult}}
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_wed_eff', vars = {card.ability.extra.xmult}}
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_thu_eff', vars = {card.ability.extra.dollars}}
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_fri_eff', vars = {card.ability.extra.h_size}}
+            info_queue[#info_queue+1] = {set = 'Other', key = 'bda_sat_eff', vars = {card.ability.extra.hands}}
+        end
+
+        return {
+			main_end = main_end
+        }
     end
 }
 
@@ -78,10 +125,46 @@ SMODS.Joker{
     blueprint_compat = true,
 
     config = {
-        extra = {}
+        date = {},
+        extra = 1.5
     },
 
     calculate = function(self, card, context)
+        if #card.ability.date == 0 then --Получаем дату при получении джокера
+            local date = os.date("*t")
+            card.ability.date = {day = date.day, month = date.month}
+        end
         
-	end
+        if context.joker_main and G.GAME.fools_count ~= 0 then
+            if card.ability.date.day == 1 and card.ability.date.month == 4 then
+                return {
+                    xmult = card.ability.extra * G.GAME.fools_count * 31
+                }
+            else
+                return {
+                    xmult = card.ability.extra * G.GAME.fools_count
+                }
+            end
+        end
+	end,
+
+    loc_vars = function (self, info_queue, card)
+        local xmult = 1
+        if G.GAME.fools_count ~= 0 then
+            if card.ability.date.day == 1 and card.ability.date.month == 4 then
+                xmult = card.ability.extra * G.GAME.fools_count * 31
+            else
+                xmult = card.ability.extra * G.GAME.fools_count
+            end
+        end
+
+        info_queue[#info_queue+1] = G.P_CENTERS.c_fool
+        
+        return {
+            vars = {
+                card.ability.extra,
+                xmult
+            }
+        }
+    end
 }
