@@ -1,3 +1,33 @@
+function evoCheckStatus(card, context) --Функция для подсчёта ходов эволюции
+    --Контекст, после подсчёта, чтобы изменить текстуру джокера и поменять значение эволюции
+    if context.final_scoring_step then
+        card.ability.evo_step = card.ability.evo_step + 1
+        if card.ability.evo_step > card.ability.evo_turn then
+            card.ability.evo_step = 0
+        end
+        if card.ability.evo_step == 0 then
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                card:juice_up(0.8, 0.5)
+                card.children.center:set_sprite_pos({x = 0, y = 0})
+            return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
+        end
+        if card.ability.evo_step == card.ability.evo_turn then
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                card:juice_up(0.8, 0.5)
+                card.children.center:set_sprite_pos({x = 1, y = 0})
+            return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
+            return {
+                message = localize("k_bda_evo"),
+                colour = HEX("9415e3")
+            }
+        end
+    end
+end
+
 SMODS.Atlas({key = 'bda_evo', path = 'Evo.png', px = 83, py = 125})
 
 SMODS.Joker{
@@ -7,7 +37,7 @@ SMODS.Joker{
     pos = {x = 0, y = 0},
     display_size = { w = 83, h = 125 },
     cost = 15,
-    blueprint_compat = true,
+    blueprint_compat = false,
 
     config = {
         jokers = {},
@@ -78,33 +108,6 @@ SMODS.Joker{
                 }
             end
         end
-
-        --Контекст, после подсчёта, чтобы изменить текстуру джокера и поменять значение эволюции
-        if context.final_scoring_step then
-            card.ability.evo_step = card.ability.evo_step + 1
-            if card.ability.evo_step > card.ability.evo_turn then
-                card.ability.evo_step = 0
-            end
-            if card.ability.evo_step == 0 then
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-                    card:juice_up(0.8, 0.5)
-                    card.children.center:set_sprite_pos({x = 0, y = 0})
-                return true end }))
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
-            end
-            if card.ability.evo_step == card.ability.evo_turn then
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-                    card:juice_up(0.8, 0.5)
-                    card.children.center:set_sprite_pos({x = 1, y = 0})
-                return true end }))
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
-                return {
-                    message = localize("k_bda_evo"),
-                    colour = HEX("9415e3")
-                }
-            end
-        end
+        evoCheckStatus(card, context)
 	end
 }

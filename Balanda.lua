@@ -10,9 +10,10 @@
 --самого smods (https://github.com/Steamodded/smods/wiki/API-Documentation)
 ---------------------------------------------------------------------------------------------------------
 
-SMODS.load_file("content/evo.lua")() --загрузка кода из других файлов
+SMODS.load_file("content/evos.lua")() --загрузка кода из других файлов
+SMODS.load_file("content/jokers.lua")()
 
-SMODS.Rarity{
+SMODS.Rarity{ --добавление своейв редкости
     key = "evo",
     badge_colour = HEX("9415e3"),
     text_colour = HEX("ffd18a"),
