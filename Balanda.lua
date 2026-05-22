@@ -16,7 +16,7 @@ SMODS.load_file("content/evos.lua")()
 SMODS.load_file("content/jokers.lua")()
 SMODS.load_file("content/consumables.lua")()
 
-SMODS.Rarity{ --добавление своейв редкости
+SMODS.Rarity{ --добавление своей редкости
     key = "evo",
     badge_colour = HEX("9415e3"),
     text_colour = HEX("ffd18a"),

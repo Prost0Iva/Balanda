@@ -28,16 +28,19 @@ function evo_check_status(card, context) --Функция для подсчёт�
     end
 end
 
-SMODS.Atlas({key = 'bda_evo', path = 'Evo.png', px = 83, py = 125})
+SMODS.Atlas({key = 'evo', path = 'Evo.png', px = 83, py = 125})
 
 SMODS.Joker{ --Evo Joker
     key = "joker",
     rarity = "bda_evo",
-    atlas = "bda_evo",
+    atlas = "evo",
     pos = {x = 0, y = 0},
     display_size = { w = 83, h = 125 },
     cost = 15,
     blueprint_compat = false,
+    
+    discovered = false,
+    unlocked = false,
 
     config = {
         jokers = {},

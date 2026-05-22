@@ -1,12 +1,15 @@
-SMODS.Atlas({key = 'bda_joker', path = 'Jokers.png', px = 71, py = 95})
+SMODS.Atlas({key = 'jokers', path = 'Jokers.png', px = 71, py = 95})
 
 SMODS.Joker{ --Calendar
     key = "calendar",
     rarity = 1,
-    atlas = "bda_joker",
+    atlas = "jokers",
     pos = {x = 1, y = 0},
     cost = 5,
     blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
 
     config = {
         wday = 0,
@@ -118,11 +121,15 @@ SMODS.Joker{ --Calendar
 SMODS.Joker{ --Teto
     key = "teto",
     rarity = 4,
-    atlas = "bda_joker",
+    atlas = "jokers",
     pos = {x = 0, y = 0},
     soul_pos = {x = 0, y = 1},
     cost = 20,
     blueprint_compat = true,
+
+    discovered = false,
+    unlocked = false,
+    unlock_condition = {type = '', extra = '', hidden = true},
 
     config = {
         date = {

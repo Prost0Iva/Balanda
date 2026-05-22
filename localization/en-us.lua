@@ -95,6 +95,9 @@ return {
                     "{X:mult,C:white}X#1#{} Mult per {C:purple}The Fool{}",
                     "used this run",
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive})",
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
                 }
             }
         }

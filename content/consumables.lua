@@ -1,15 +1,14 @@
-SMODS.Atlas({key = 'bda_spectral', path = 'Spectral.png', px = 71, py = 95})
+SMODS.Atlas({key = 'wild_shard', path = 'WildShard.png', atlas_table = 'ANIMATION_ATLAS', frames = 10, fps = 6, px = 71, py = 95})
 
 SMODS.Consumable{
-    set = 'Tarot',
-    atlas = 'ma_tarot',
-    key = 'kingpen',
+    set = 'Spectral',
+    key = 'wild_shard',
     unlocked = true,
     discovered = false,
     cost = 3,
-    pos = {x = 0, y = 0},
-    soul_pos = {x = 0, y = 1},
-    frames = 10,
+    atlas = 'wild_shard',
+	pos = { x = 0, y = 0 },
+	soul_pos = { x = 0 , y = 1 },
 
     loc_vars = function (self, info_queue, card)
         

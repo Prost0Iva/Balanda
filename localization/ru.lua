@@ -94,6 +94,9 @@ return {
                     "{X:mult,C:white}X#1#{} множ. за каджого",
                     "использованного {C:purple}Дурака{}",
                     "{C:inactive}(сейчас {X:mult,C:white}X#2#{C:inactive})",
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
                 }
             }
         }
