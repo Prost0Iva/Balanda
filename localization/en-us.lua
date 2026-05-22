@@ -59,6 +59,29 @@ return {
             }
         },
         Joker = {
+
+            --Evo Jokers
+
+            j_bda_joker = {
+                name = "Joker",
+                text = {
+                    "{C:red,s:1.1}+#1#{} Mult",
+                    "{C:inactive}(Evolves after #2# triggers)"
+                }
+            },
+            j_bda_joker_evo = {
+                name = "Joker",
+                text = {
+                    'Creates a {C:dark_edition}Negative Perishable "Joker"',
+                    'when the "Joker" is triggered',
+                    "{C:inactive}(Max #1# times)",
+                    '{X:mult,C:white}X#2#{} Mult per {C:attention}"Joker"{}',
+                    "{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive})",
+                }
+            },
+
+            --Default Jokers
+
             j_bda_calendar = {
                 name = "Calendar",
                 text = {

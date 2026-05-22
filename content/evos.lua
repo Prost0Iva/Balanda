@@ -30,8 +30,8 @@ end
 
 SMODS.Atlas({key = 'bda_evo', path = 'Evo.png', px = 83, py = 125})
 
-SMODS.Joker{
-    key = "evo_joker",
+SMODS.Joker{ --Evo Joker
+    key = "joker",
     rarity = "bda_evo",
     atlas = "bda_evo",
     pos = {x = 0, y = 0},
@@ -66,7 +66,7 @@ SMODS.Joker{
             if card.ability.evo_step == card.ability.evo_turn then
                 card.ability.jokers, card.ability.jokers_count = {}, 0
                 for k, v in ipairs(G.jokers.cards) do
-                    if (v.config.center.key == "j_joker" or v.config.center.key == "j_bda_evo_joker") and not v.debuff then
+                    if (v.config.center.key == "j_joker" or v.config.center.key == "j_bda_joker") and not v.debuff then
                         if #card.ability.jokers < card.ability.extra.max_jokers then --не добавляем джокеров в таблицу, если их больше максимального ограничения
                             card.ability.jokers[#card.ability.jokers + 1] = v
                         end
@@ -109,5 +109,27 @@ SMODS.Joker{
             end
         end
         evo_check_status(card, context)
-	end
+	end,
+
+    loc_vars = function (self, info_queue, card)
+        if card.ability.evo_step < card.ability.evo_turn then
+            return {
+                key = self.key,
+                vars = {card.ability.extra.mult, card.ability.evo_turn - card.ability.evo_step}
+            }
+        end
+        if card.ability.evo_step == card.ability.evo_turn then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_joker
+            local jokers_count = 0
+                for k, v in ipairs(G.jokers.cards) do
+                    if (v.config.center.key == "j_joker" or v.config.center.key == "j_bda_joker") and not v.debuff then
+                        jokers_count = jokers_count + 1
+                    end
+                end
+            return {
+                key = self.key..'_evo',
+                vars = {card.ability.extra.max_jokers, card.ability.extra.xmult_per_joker, card.ability.extra.xmult_per_joker * jokers_count}
+            }
+        end
+    end
 }

@@ -58,6 +58,29 @@ return {
             }
         },
         Joker = {
+
+            --Evo Jokers
+
+            j_bda_joker = {
+                name = "Джокер",
+                text = {
+                    "{C:red,s:1.1}+#1#{} множ.",
+                    "{C:inactive}(Эволюционирует через #2# срабатывания)"
+                }
+            },
+            j_bda_joker_evo = {
+                name = "Джокер",
+                text = {
+                    'Создает {C:dark_edition}негативного временного "джокера"',
+                    'при срабатывании "джокера"',
+                    "{C:inactive}(макс. #1# раз)",
+                    '{X:mult,C:white}X#2#{} множ. за каждого {C:attention}"джокера"{}',
+                    "{C:inactive}(сейчас {X:mult,C:white}X#3#{C:inactive})",
+                }
+            },
+
+            --Default Jokers
+
             j_bda_calendar = {
                 name = "Календарь",
                 text = {

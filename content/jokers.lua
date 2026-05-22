@@ -1,6 +1,6 @@
 SMODS.Atlas({key = 'bda_joker', path = 'Jokers.png', px = 71, py = 95})
 
-SMODS.Joker{
+SMODS.Joker{ --Calendar
     key = "calendar",
     rarity = 1,
     atlas = "bda_joker",
@@ -115,7 +115,7 @@ SMODS.Joker{
     end
 }
 
-SMODS.Joker{
+SMODS.Joker{ --Teto
     key = "teto",
     rarity = 4,
     atlas = "bda_joker",
@@ -125,41 +125,33 @@ SMODS.Joker{
     blueprint_compat = true,
 
     config = {
-        date = {},
-        extra = 1.5
+        date = {
+            day = 0,
+            month = 0
+        },
+        extra = 1
     },
 
     calculate = function(self, card, context)
-        if #card.ability.date == 0 then --Получаем дату при получении джокера
+        if card.ability.date.day == 0 and card.ability.date.month == 0 then --Получаем дату при получении джокера
             local date = os.date("*t")
             card.ability.date = {day = date.day, month = date.month}
+            if card.ability.date.day == 1 and card.ability.date.month == 4 then
+                sendDebugMessage("*31")
+                card.ability.extra = card.ability.extra * 31
+            end
         end
         
-        if context.joker_main and G.GAME.fools_count ~= 0 then
-            if card.ability.date.day == 1 and card.ability.date.month == 4 then
-                return {
-                    xmult = card.ability.extra * G.GAME.fools_count * 31
-                }
-            else
-                return {
-                    xmult = card.ability.extra * G.GAME.fools_count
-                }
-            end
+        if context.joker_main then
+            return {
+                xmult = card.ability.extra * G.GAME.fools_count + 1
+            }
         end
 	end,
 
     loc_vars = function (self, info_queue, card)
-        local xmult = 1
-        if G.GAME.fools_count ~= 0 then
-            if card.ability.date.day == 1 and card.ability.date.month == 4 then
-                xmult = card.ability.extra * G.GAME.fools_count * 31
-            else
-                xmult = card.ability.extra * G.GAME.fools_count
-            end
-        end
-
+        local xmult = card.ability.extra * G.GAME.fools_count + 1
         info_queue[#info_queue+1] = G.P_CENTERS.c_fool
-        
         return {
             vars = {
                 card.ability.extra,
