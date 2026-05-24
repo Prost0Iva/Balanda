@@ -100,6 +100,22 @@ return {
                     "{E:1,s:1.3}?????",
                 }
             }
+        },
+        Voucher = {
+            v_bda_amnesia = {
+                name = "Amnesia",
+                text = {
+                    "{C:green}#1#%{} chance to add",
+                    "your random joker to shop"
+                }
+            },
+            v_bda_dementia = {
+                name = "Dementia",
+                text = {
+                    "{C:green}#1#%{} chance to copy",
+                    "your random joker into shop"
+                }
+            }
         }
     }
 }
