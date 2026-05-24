@@ -15,6 +15,7 @@ SMODS.load_file("lib/hooks.lua")() --загрузка кода из других
 SMODS.load_file("content/evos.lua")()
 SMODS.load_file("content/jokers.lua")()
 SMODS.load_file("content/consumables.lua")()
+SMODS.load_file("content/vouchers.lua")()
 
 SMODS.Rarity{ --добавление своей редкости
     key = "evo",
