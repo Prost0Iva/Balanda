@@ -151,13 +151,13 @@ SMODS.Joker{ --Teto
         
         if context.joker_main then
             return {
-                xmult = card.ability.extra * G.GAME.fools_count + 1
+                xmult = card.ability.extra * G.GAME.bda_fools_count + 1
             }
         end
 	end,
 
     loc_vars = function (self, info_queue, card)
-        local xmult = card.ability.extra * G.GAME.fools_count + 1
+        local xmult = card.ability.extra * G.GAME.bda_fools_count + 1
         info_queue[#info_queue+1] = G.P_CENTERS.c_fool
         return {
             vars = {

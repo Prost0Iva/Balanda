@@ -2,7 +2,9 @@ local bda_igo = Game.init_game_object
 function Game:init_game_object() --Хук на добавление своих переменных использующихся в партии
 	local g = bda_igo(self)
 
-    g.fools_count = 0
+    g.bda_fools_count = 0
+
+    g.bda_basic_blind_mult = nil
     
     return g
 end
@@ -11,8 +13,31 @@ local bda_use_consumeable = Card.use_consumeable
 function Card:use_consumeable(area, copier)
 	
     if self.ability.name == 'The Fool' then
-        G.GAME.fools_count = G.GAME.fools_count + 1
+        G.GAME.bda_fools_count = G.GAME.bda_fools_count + 1
     end
     
 	bda_use_consumeable(self, area, copier)
+end
+
+local bda_upd = Game.update
+function Game:update(dt)
+    
+    if G.GAME.bda_basic_blind_mult == nil then
+        G.GAME.bda_basic_blind_mult = {G.P_BLINDS.bl_small.mult, G.P_BLINDS.bl_big.mult}
+    end
+
+    if G.GAME.modifiers.bda_very_big_blinds then
+        if G.GAME.round_resets.ante % 4 == 0 then
+            G.GAME.round_resets.blind_choices.Boss = 'bl_final_vessel'
+        else
+            G.GAME.round_resets.blind_choices.Boss = 'bl_wall'
+        end
+        G.P_BLINDS.bl_small.mult = 2
+        G.P_BLINDS.bl_big.mult = 3
+    else
+        G.P_BLINDS.bl_small.mult = 1
+        G.P_BLINDS.bl_big.mult = 1.5
+    end
+
+    bda_upd(self, dt)
 end

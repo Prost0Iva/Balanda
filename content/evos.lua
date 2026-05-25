@@ -41,6 +41,7 @@ SMODS.Joker{ --Evo Joker
     
     discovered = false,
     unlocked = false,
+    no_collection = false,
 
     config = {
         jokers = {},
