@@ -13,18 +13,10 @@
 local mod_path = SMODS.current_mod.path
 local lib = NFS.getDirectoryItems(mod_path .. "lib")
 local content = NFS.getDirectoryItems(mod_path .. "content")
-
-if #lib == 0 then
-    sendDebugMessage("нихуя не вышло")
-else
-    sendDebugMessage("чето вроде есть")
-end
-
 local files = {
     lib = lib,
     content = content
 }
-
 for k, v in pairs(files) do
     for _, f in ipairs(v) do
         sendDebugMessage(k .. "/" .. f)

@@ -9,7 +9,12 @@ local joker = { --Evo Joker
     
     discovered = false,
     unlocked = false,
-    no_collection = false,
+    check_for_unlock = function(self, args)
+        if G.PROFILES[G.SETTINGS.profile].challenge_progress.completed["c_bda_evo_joker"] then
+            unlock_card(self)
+        end
+    end,
+    no_collection = true,
 
     config = {
         jokers = {},

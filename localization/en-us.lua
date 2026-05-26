@@ -90,6 +90,9 @@ return {
                 text = {
                     "{C:red,s:1.1}+#1#{} Mult",
                     "{C:inactive}(Evolves after #2# triggers)"
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
                 }
             },
             j_bda_joker_evo = {
@@ -137,6 +140,19 @@ return {
                 text = {
                     "{C:green}#1#%{} chance to copy",
                     "your random joker into shop"
+                }
+            }
+        },
+        Spectral={
+            c_bda_wild_shard={
+                name="Wild Shard",
+                text={
+                    "{X:evo,C:evo_text}Evolves{} #1# selected",
+                    "Joker"
+                },
+                unlock={
+                    "Complete one of",
+                    "{X:evo,C:white}Balanda's{} challenges"
                 }
             }
         }

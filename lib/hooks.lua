@@ -1,3 +1,24 @@
+--local bda_set_globals = Game.set_globals
+--function Game:set_globals()
+--    local g = bda_set_globals(self)
+--
+--    g.C.EVO = HEX('9415e3')
+--    g.C.EVO_TEXT = HEX('ffd18a')
+--    
+--    return g
+--end
+--
+local bda_lc = loc_colour
+function loc_colour(_c, _default)
+	if not G.ARGS.LOC_COLOURS then
+		bda_lc()
+	end
+	G.ARGS.LOC_COLOURS.evo = HEX('9415e3')
+	G.ARGS.LOC_COLOURS.evo_text = HEX('ffd18a')
+	
+	return bda_lc(_c, _default)
+end
+
 local bda_igo = Game.init_game_object
 function Game:init_game_object() --Хук на добавление своих переменных использующихся в партии
 	local g = bda_igo(self)
