@@ -10,13 +10,27 @@
 --самого smods (https://github.com/Steamodded/smods/wiki/API-Documentation)
 ---------------------------------------------------------------------------------------------------------
 
-SMODS.load_file("lib/hooks.lua")() --загрузка кода из других файлов
+local mod_path = SMODS.current_mod.path
+local lib = NFS.getDirectoryItems(mod_path .. "lib")
+local content = NFS.getDirectoryItems(mod_path .. "content")
 
-SMODS.load_file("content/evos.lua")()
-SMODS.load_file("content/jokers.lua")()
-SMODS.load_file("content/consumables.lua")()
-SMODS.load_file("content/vouchers.lua")()
-SMODS.load_file("content/challenges.lua")()
+if #lib == 0 then
+    sendDebugMessage("нихуя не вышло")
+else
+    sendDebugMessage("чето вроде есть")
+end
+
+local files = {
+    lib = lib,
+    content = content
+}
+
+for k, v in pairs(files) do
+    for _, f in ipairs(v) do
+        sendDebugMessage(k .. "/" .. f)
+        SMODS.load_file(k .. "/" .. f)()
+    end
+end
 
 SMODS.Rarity{ --добавление своей редкости
     key = "evo",

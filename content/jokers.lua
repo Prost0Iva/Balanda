@@ -1,6 +1,4 @@
-SMODS.Atlas({key = 'jokers', path = 'Jokers.png', px = 71, py = 95})
-
-SMODS.Joker{ --Calendar
+local calendar = { --Calendar
     key = "calendar",
     rarity = 1,
     atlas = "jokers",
@@ -118,7 +116,7 @@ SMODS.Joker{ --Calendar
     end
 }
 
-SMODS.Joker{ --Teto
+local teto = { --Teto
     key = "teto",
     rarity = 4,
     atlas = "jokers",
@@ -167,3 +165,11 @@ SMODS.Joker{ --Teto
         }
     end
 }
+
+local content = {
+    calendar,
+    teto
+}
+for _, v in ipairs(content) do
+    SMODS.Joker(v)
+end

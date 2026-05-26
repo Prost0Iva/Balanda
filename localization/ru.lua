@@ -10,6 +10,29 @@ return {
             bda_thu = "Четверг",
             bda_fri = "Пятница",
             bda_sat = "Суббота"
+        },
+        challenge_names={
+            c_bda_evo_joker = "Чел"
+        },
+        v_text={
+            ch_c_bda_very_big_blinds={
+                "{C:attention}Малый блайнд{} - {C:mult}2X база"
+            },
+            ch_c_bda_very_big_blinds_disc_1={
+                "{C:attention}Большой блайнд{} - {C:mult}3X база"
+            },
+            ch_c_bda_very_big_blinds_disc_2={
+                'Все босс блайнды - {C:attention}"Стена"{}'
+            },
+            ch_c_bda_very_big_blinds_disc_3={
+                'Каждый {C:attention}4ый{} босс блайнд - {C:attention}"Фиолетовый сосуд"{}'
+            },
+            ch_c_bda_no_reroll={
+                "Без перебросов лавки"
+            },
+            ch_c_bda_dementia_chance_up={
+                'Эффекты {C:attention}"Амнезии"{} и {C:attention}"Деменции"{} усилены'
+            }
         }
     },
     descriptions = {
@@ -75,7 +98,7 @@ return {
                     'при срабатывании "джокера"',
                     "{C:inactive}(макс. #1# раз)",
                     '{X:mult,C:white}X#2#{} множ. за каждого {C:attention}"джокера"{}',
-                    "{C:inactive}(сейчас {X:mult,C:white}X#3#{C:inactive})",
+                    "{C:inactive}(сейчас {X:mult,C:white}X#3#{C:inactive})"
                 }
             },
 
@@ -93,10 +116,10 @@ return {
                 text = {
                     "{X:mult,C:white}X#1#{} множ. за каджого",
                     "использованного {C:purple}Дурака{}",
-                    "{C:inactive}(сейчас {X:mult,C:white}X#2#{C:inactive})",
+                    "{C:inactive}(сейчас {X:mult,C:white}X#2#{C:inactive})"
                 },
                 unlock={
-                    "{E:1,s:1.3}?????",
+                    "{E:1,s:1.3}?????"
                 }
             }
         },

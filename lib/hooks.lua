@@ -3,8 +3,6 @@ function Game:init_game_object() --Хук на добавление своих �
 	local g = bda_igo(self)
 
     g.bda_fools_count = 0
-
-    g.bda_basic_blind_mult = nil
     
     return g
 end
@@ -21,10 +19,6 @@ end
 
 local bda_upd = Game.update
 function Game:update(dt)
-    
-    if G.GAME.bda_basic_blind_mult == nil then
-        G.GAME.bda_basic_blind_mult = {G.P_BLINDS.bl_small.mult, G.P_BLINDS.bl_big.mult}
-    end
 
     if G.GAME.modifiers.bda_very_big_blinds then
         if G.GAME.round_resets.ante % 4 == 0 then
@@ -40,4 +34,16 @@ function Game:update(dt)
     end
 
     bda_upd(self, dt)
+end
+
+local bda_can_reroll = G.FUNCS.can_reroll
+function G.FUNCS.can_reroll(e)
+
+	if G.GAME.modifiers.bda_no_reroll then
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	else
+		return bda_can_reroll(e)
+	end
+
 end

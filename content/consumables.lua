@@ -1,6 +1,4 @@
-SMODS.Atlas({key = 'wild_shard', path = 'WildShard.png', atlas_table = 'ANIMATION_ATLAS', frames = 10, fps = 6, px = 71, py = 95})
-
-SMODS.Consumable{
+local wild_shard = {
     set = 'Spectral',
     key = 'wild_shard',
     unlocked = true,
@@ -23,3 +21,10 @@ SMODS.Consumable{
     end
 
 }
+
+local content = {
+    wild_shard,
+}
+for _, v in ipairs(content) do
+    SMODS.Consumable(v)
+end

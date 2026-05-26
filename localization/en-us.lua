@@ -11,6 +11,29 @@ return {
             bda_fri = "Friday",
             bda_sat = "Saturday"
 
+        },
+        challenge_names={
+            c_bda_evo_joker = "Chell"
+        },
+        v_text={
+            ch_c_bda_very_big_blinds={
+                "{C:attention}Small Blind{} - {C:mult}2X Base"
+            },
+            ch_c_bda_very_big_blinds_disc_1={
+                "{C:attention}Big Blind{} - {C:mult}3X Base"
+            },
+            ch_c_bda_very_big_blinds_disc_2={
+                'All Boss Blind is {C:attention}"The Wall"{}'
+            },
+            ch_c_bda_very_big_blinds_disc_3={
+                'Every {C:attention}4th{} Boss Blind is {C:attention}"Violet Vessel"{}'
+            },
+            ch_c_bda_no_reroll={
+                "No shop rerolls"
+            },
+            ch_c_bda_dementia_chance_up={
+                'Effects of {C:attention}"Amnesia"{} and {C:attention}"Dementia"{} are Increased'
+            }
         }
     },
     descriptions = {

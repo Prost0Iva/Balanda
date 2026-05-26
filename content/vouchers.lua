@@ -1,6 +1,4 @@
-SMODS.Atlas({key = 'vouchers', path = 'Vouchers.png', px = 71, py = 95})
-
-SMODS.Voucher{ --Amnesia --R1UAI6C7
+local amnesia = { --Amnesia --R1UAI6C7
     key = "amnesia",
     cost = 10,
     atlas = "vouchers",
@@ -9,13 +7,22 @@ SMODS.Voucher{ --Amnesia --R1UAI6C7
     discovered = false,
 
     config = {
+        chance_mod = 0,
         extra = 20
     },
 
-    calculate = function(self, card, context) 
+    calculate = function(self, card, context)
+        if card.ability.chance_mod == 0 then
+            if G.GAME.modifiers.bda_dementia_chance_up then
+                card.ability.chance_mod = 15
+            else
+                card.ability.chance_mod = 1
+            end
+        end
+
         if context.starting_shop and G.jokers ~= nil then
             local rng = pseudorandom('amnesia')
-            if rng < G.GAME.probabilities.normal / card.ability.extra then
+            if rng < G.GAME.probabilities.normal * card.ability.chance_mod / card.ability.extra then
                 local shop_joker = G.shop_jokers.cards[pseudorandom('amnesia', 1, #G.shop_jokers.cards)] --берем рандомный слот в магазине
                 local joker = G.jokers.cards[pseudorandom('amnesia', 1, #G.jokers.cards)] --берём рандомного джокера из инвентаря
 
@@ -33,16 +40,23 @@ SMODS.Voucher{ --Amnesia --R1UAI6C7
     end,
 
     loc_vars = function (self, info_queue, card)
+        if card.ability.chance_mod == 0 then
+            if G.GAME.modifiers.bda_dementia_chance_up then
+                card.ability.chance_mod = 15
+            else
+                card.ability.chance_mod = 1
+            end
+        end
         return {
             vars = {
-                G.GAME.probabilities.normal / card.ability.extra * 100
+                G.GAME.probabilities.normal * card.ability.chance_mod / card.ability.extra * 100
             }
         }
     end
     
 }
 
-SMODS.Voucher{ --Dementia
+local dementia ={ --Dementia
     key = "dementia",
     cost = 10,
     atlas = "vouchers",
@@ -52,13 +66,22 @@ SMODS.Voucher{ --Dementia
     discovered = false,
 
     config = {
+        chance_mod = 0,
         extra = 8
     },
 
-    calculate = function(self, card, context) 
+    calculate = function(self, card, context)
+        if card.ability.chance_mod == 0 then
+            if G.GAME.modifiers.bda_dementia_chance_up then
+                card.ability.chance_mod = 6
+            else
+                card.ability.chance_mod = 1
+            end
+        end
+        
         if context.starting_shop and G.jokers ~= nil then
             local rng = pseudorandom('amnesia')
-            if rng < G.GAME.probabilities.normal / card.ability.extra then
+            if rng < G.GAME.probabilities.normal * card.ability.chance_mod / card.ability.extra then
                 local shop_joker = G.shop_jokers.cards[pseudorandom('amnesia', 1, #G.shop_jokers.cards)] --берем рандомный слот в магазине
                 local joker = G.jokers.cards[pseudorandom('amnesia', 1, #G.jokers.cards)] --берём рандомного джокера из инвентаря
 
@@ -76,10 +99,25 @@ SMODS.Voucher{ --Dementia
     end,
 
     loc_vars = function (self, info_queue, card)
+        if card.ability.chance_mod == 0 then
+            if G.GAME.modifiers.bda_dementia_chance_up then
+                card.ability.chance_mod = 6
+            else
+                card.ability.chance_mod = 1
+            end
+        end
         return {
             vars = {
-                G.GAME.probabilities.normal / card.ability.extra * 100
+                G.GAME.probabilities.normal * card.ability.chance_mod / card.ability.extra * 100
             }
         }
     end
 }
+
+local content = {
+    amnesia,
+    dementia
+}
+for _, v in ipairs(content) do
+    SMODS.Voucher(v)
+end
