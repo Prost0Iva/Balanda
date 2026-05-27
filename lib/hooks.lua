@@ -1,13 +1,3 @@
---local bda_set_globals = Game.set_globals
---function Game:set_globals()
---    local g = bda_set_globals(self)
---
---    g.C.EVO = HEX('9415e3')
---    g.C.EVO_TEXT = HEX('ffd18a')
---    
---    return g
---end
---
 local bda_lc = loc_colour
 function loc_colour(_c, _default)
 	if not G.ARGS.LOC_COLOURS then
@@ -24,6 +14,10 @@ function Game:init_game_object() --Хук на добавление своих �
 	local g = bda_igo(self)
 
     g.bda_fools_count = 0
+    g.bda_evo_list = {
+        j_joker = "j_bda_joker",
+        j_egg = "j_golden"
+    }
     
     return g
 end
