@@ -25,25 +25,38 @@ local wild_shard = {
     end,
 
     use = function (self, card, area, copier)
+        local can_evo, can_evo_keys = {}, {}
+        for k, v in pairs(G.P_CENTERS) do
+            if G.P_CENTERS[k].rarity == "bda_evo" then
+                if G.P_CENTERS[k].unlocked then
+                    can_evo["j" .. k:sub(6)] = true
+                end
+                can_evo_keys[#can_evo_keys + 1] = "j" .. k:sub(6)
+            end
+        end
+
         local temp = false
         if G.jokers and (#G.jokers.highlighted >= 1) and (#G.jokers.highlighted <= card.ability.extra) then
             for _, v in ipairs(G.jokers.highlighted) do
-                if G.GAME.bda_evo_list[v.config.center.key] then
-                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                        v.config = G.P_CENTERS[G.GAME.bda_evo_list[v.config.center.key]]
-                        card:juice_up(0.3, 0.5)
-                    return {message = localize("k_bda_evo"), colour = HEX("9415e3")} end }))
-                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
+                if can_evo[v.config.center.key] then
+                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
+                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.4,func = function() 
+                        v:set_ability("j_bda_" .. v.config.center.key:sub(3))
+                        v:set_cost()
+                        v:juice_up(0.3, 0.3)
+                        card:juice_up(0.3, 0.3)
+                    return true end }))
+                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
                     temp = true
                 end
             end
         end
         if not temp then
-            local joker_id = G.GAME.bda_evo_list[G.GAME.bda_evo_list[pseudorandom('wild_shard', 1, #G.GAME.bda_evo_list)]]
-            local joker = create_card("Joker", G.jokers, nil, nil, nil, nil, joker_id)
+            local key = can_evo_keys[pseudorandom('wild_shard', 1, #can_evo_keys)]
+            local joker = create_card("Joker", G.jokers, nil, nil, nil, nil, key)
             joker:add_to_deck()
 		    G.jokers:emplace(joker)
+            card:juice_up(0.3, 0.3)
         end
         G.jokers:unhighlight_all()
     end,

@@ -92,7 +92,8 @@ return {
                     "{C:inactive}(Evolves after #2# triggers)"
                 },
                 unlock={
-                    "{E:1,s:1.3}?????",
+                    "Complete {X:evo,C:white}Chell",
+                    "challenge"
                 }
             },
             j_bda_joker_evo = {
@@ -148,7 +149,10 @@ return {
                 name="Wild Shard",
                 text={
                     "{X:evo,C:evo_text}Evolves{} #1# selected",
-                    "Joker"
+                    "Joker",
+                    "{C:inactive,s:0.8}If selected Joker doesn't have an {X:evo,C:evo_text,s:0.8}Evo",
+                    "{C:inactive,s:0.8}Or his {X:evo,C:evo_text,s:0.8}Evo{C:inactive,s:0.8} is not unlocked",
+                    "{C:inactive,s:0.8}Creates a random Joker that has an {X:evo,C:evo_text,s:0.8}Evo{}"
                 },
                 unlock={
                     "Complete one of",

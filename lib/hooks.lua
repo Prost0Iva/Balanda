@@ -14,10 +14,6 @@ function Game:init_game_object() --Хук на добавление своих �
 	local g = bda_igo(self)
 
     g.bda_fools_count = 0
-    g.bda_evo_list = {
-        j_joker = "j_bda_joker",
-        j_egg = "j_golden"
-    }
     
     return g
 end
