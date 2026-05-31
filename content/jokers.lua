@@ -166,7 +166,7 @@ local teto = { --Teto
     end
 }
 
-local steve = {
+local steve = { --Steve
     key = "steve",
     rarity = 2,
     atlas = "jokers",
@@ -231,9 +231,33 @@ local steve = {
     
 }
 
+local bad_apple = { --BadApple
+    key = "bad_apple",
+    rarity = 3,
+    atlas = "bad_apple",
+    pos = {x = 0, y = 0},
+    cost = 0,
+    blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
+
+    loc_vars = function (self, info_queue, card)
+    
+    end,
+
+    config = { },
+
+    calculate = function(self, card, context)
+    
+    end
+    
+}
+
 local content = {
     calendar,
     steve,
+    bad_apple,
     teto
 }
 for _, v in ipairs(content) do
