@@ -36,6 +36,7 @@ local wild_shard = {
         end
 
         local temp = false
+        local used_tarot = copier or card
         if G.jokers and (#G.jokers.highlighted >= 1) and (#G.jokers.highlighted <= card.ability.extra) then
             for _, v in ipairs(G.jokers.highlighted) do
                 if can_evo[v.config.center.key] then
@@ -44,7 +45,7 @@ local wild_shard = {
                         v:set_ability("j_bda_" .. v.config.center.key:sub(3))
                         v:set_cost()
                         v:juice_up(0.3, 0.3)
-                        card:juice_up(0.3, 0.3)
+                        used_tarot:juice_up(0.3, 0.5)
                     return true end }))
                     G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
                     temp = true
@@ -79,6 +80,11 @@ local perseverance = {
     config = {
         extra = 1
     },
+
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_bda_diamond
+        return { vars = {card.ability.extra} }
+    end,
 
     use = function (self, card, area, copier)
         for _, v in ipairs(G.hand.highlighted) do

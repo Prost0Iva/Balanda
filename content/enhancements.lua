@@ -5,25 +5,26 @@ local diamond = {
 
     config = {
         extra = {
-            x_per_dol = 1.5,
-            dol_req = 25,
-            dollars = 2
+            x_per_dol = 0.05,
+            dol_req = 5,
+            dollars = 1
         },
-        h_x_chips
     },
 
     loc_vars = function (self, info_queue, card)
         return {
-            vars = {card.ability.h_x_chips}
+            vars = {card.ability.extra.dollars, card.ability.extra.x_per_dol, card.ability.extra.dol_req ,1 + math.floor(G.GAME.dollars / card.ability.extra.dol_req) * card.ability.extra.x_per_dol}
         }
     end,
 
     calculate = function(self, card, context)
-        if G.GAME.dollars % card.ability.extra.dol_req ~= 0 then
-            card.ability.h_x_chips = G.GAME.dollars % card.ability.extra.dol_req * card.ability.extra.x_per_dol
-        else
-            card.ability.h_x_chips = 1
+        if context.pre_discard then
+            return { dollars =  card.ability.extra.dollars }
         end
+        if context.final_scoring_step then
+            return { xchips = 1 + math.floor(G.GAME.dollars / card.ability.extra.dol_req) * card.ability.extra.x_per_dol }
+        end
+        
     end,
 }
 

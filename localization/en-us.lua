@@ -2,6 +2,7 @@ return {
     misc = {
         dictionary = {
             k_bda_evo = "Evolution",
+            k_bda_mine = "Mine",
 
             bda_sun = "Sunday",
             bda_mon = "Monday",
@@ -161,13 +162,23 @@ return {
             }
         },
         Tarot  = {
-
+            c_bda_perseverance = {
+                name = "Perseverance",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into a {C:attention}Diamond Card",
+                    "and convert to {C:attention}Diamonds"
+                }
+            }
         },
         Enhanced={
             m_bda_diamond = {
                 name = "Diamond Card",
                 text = {
-                    "{X:chips,C:white}X#1#"
+                    "{C:money}$#1#{} when {C:red}Discard",
+                    "{X:chips,C:white}X#2#{} chips per {C:money}$#3#",
+                    "while this card stays in hand",
+                    "{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive})"
                 }
             }
         }

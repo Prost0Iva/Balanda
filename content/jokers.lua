@@ -166,8 +166,74 @@ local teto = { --Teto
     end
 }
 
+local steve = {
+    key = "steve",
+    rarity = 2,
+    atlas = "jokers",
+    pos = {x = 2, y = 0},
+    cost = 5,
+    blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
+
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+        info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+        info_queue[#info_queue+1] = G.P_CENTERS.m_gold
+        info_queue[#info_queue+1] = G.P_CENTERS.m_bda_diamond
+    end,
+
+    config = {
+        enh = {
+            G.P_CENTERS.m_stone,
+            G.P_CENTERS.m_steel,
+            G.P_CENTERS.m_gold,
+            G.P_CENTERS.m_bda_diamond
+        }
+    },
+
+    calculate = function(self, card, context)
+        if context.setting_blind then
+            local eval = function() return G.GAME.current_round.hands_played == 0 end
+            juice_card_until(card, eval, true)
+
+        end
+
+        if context.before and G.GAME.current_round.hands_played == 0 then
+            local stone = {}
+            for k, v in ipairs(context.full_hand) do
+                if not v.debuff then
+                    if v.config.center == G.P_CENTERS.m_stone then 
+                        stone[#stone+1] = v
+                    else
+                        return true
+                    end 
+                end
+            end
+            if #stone ~= 0 then
+                for k, v in ipairs(stone) do
+                    local enh = card.ability.enh[pseudorandom('steve', 1, #card.ability.enh)]
+                    v:set_ability(enh, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:juice_up()
+                            return true
+                        end
+                    })) 
+                    return {
+                        message = localize("k_bda_mine")
+                    }
+                end
+            end
+        end
+    end
+    
+}
+
 local content = {
     calendar,
+    steve,
     teto
 }
 for _, v in ipairs(content) do

@@ -2,6 +2,7 @@ return {
     misc = {
         dictionary = {
             k_bda_evo = "Эволюция",
+            k_bda_mine = "Добыл",
 
             bda_sun = "Воскресенье",
             bda_mon = "Понедельник",
@@ -10,6 +11,7 @@ return {
             bda_thu = "Четверг",
             bda_fri = "Пятница",
             bda_sat = "Суббота"
+            
         },
         challenge_names={
             c_bda_evo_joker = "Чел"
@@ -156,6 +158,27 @@ return {
                 unlock={
                     "Завершите одно из",
                     "испытаний мода {X:evo,C:white}Balanda"
+                }
+            }
+        },
+        Tarot  = {
+            c_bda_perseverance = {
+                name = "Упорство",
+                text = {
+                    "Улучшает {C:attention}#1#{} выбранную",
+                    "карту до: {C:attention}Алмазная карта",
+                    "и преобразует в: {C:attention}Бубны"
+                }
+            }
+        },
+        Enhanced={
+            m_bda_diamond = {
+                name = "Алмазная карта",
+                text = {
+                    "{C:money}$#1#{} при {C:red}сбросе",
+                    "{X:chips,C:white}X#2#{} фишек за каждые {C:money}$#3#",
+                    "пока эта карта остается в руке",
+                    "{C:inactive}(сейчас {X:chips,C:white}X#4#{C:inactive})"
                 }
             }
         }
