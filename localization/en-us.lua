@@ -159,6 +159,17 @@ return {
                     "{X:evo,C:white}Balanda's{} challenges"
                 }
             }
+        },
+        Tarot  = {
+
+        },
+        Enhanced={
+            m_bda_diamond = {
+                name = "Diamond Card",
+                text = {
+                    "{X:chips,C:white}X#1#"
+                }
+            }
         }
     }
 }

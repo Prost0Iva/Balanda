@@ -67,8 +67,42 @@ local wild_shard = {
 
 }
 
+local perseverance = {
+    set = 'Tarot',
+    key = "perseverance",
+    unlocked = true,
+    discovered = false,
+
+    atlas = 'consumables',
+	pos = { x = 0, y = 0 },
+
+    config = {
+        extra = 1
+    },
+
+    use = function (self, card, area, copier)
+        for _, v in ipairs(G.hand.highlighted) do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4,func = function ()
+                v:set_ability(G.P_CENTERS.m_bda_diamond)
+                v:change_suit("Diamonds")
+            return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() v:flip();play_sound('card1', percent);v:juice_up(0.3, 0.3);return true end }))
+        end
+        G.hand:unhighlight_all()
+    end, 
+
+    can_use = function(self, card)
+        if G.hand and (#G.hand.highlighted >= 1) and (#G.hand.highlighted <= card.ability.extra) then
+            return true
+        end
+    end
+
+}
+
 local content = {
     wild_shard,
+    perseverance
 }
 for _, v in ipairs(content) do
     SMODS.Consumable(v)
