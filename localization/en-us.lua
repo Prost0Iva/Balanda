@@ -127,6 +127,15 @@ return {
                 unlock={
                     "{E:1,s:1.3}?????",
                 }
+            },
+            j_bda_steve = {
+                name = "Steve",
+                text = {
+                    "If {C:attention}first hand{} of round",
+                    "has only {C:attention}Stone Cards{}",
+                    "converts them into",
+                    "{C:attention}Steel, Gold and Diamond cards"
+                }
             }
         },
         Voucher = {
@@ -175,9 +184,9 @@ return {
             m_bda_diamond = {
                 name = "Diamond Card",
                 text = {
-                    "{C:money}$#1#{} when {C:red}Discard",
-                    "{X:chips,C:white}X#2#{} chips per {C:money}$#3#",
-                    "while this card stays in hand",
+                    "{C:money}$#1#{} when {C:red}discarded",
+                    "{X:chips,C:white}X#2#{} Chips for each {C:money}$#3#",
+                    "if this card is held in hand",
                     "{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive})"
                 }
             }

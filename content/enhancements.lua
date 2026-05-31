@@ -21,7 +21,7 @@ local diamond = {
         if context.pre_discard then
             return { dollars =  card.ability.extra.dollars }
         end
-        if context.final_scoring_step then
+        if context.final_scoring_step and context.cardarea == G.hand then
             return { xchips = 1 + math.floor(G.GAME.dollars / card.ability.extra.dol_req) * card.ability.extra.x_per_dol }
         end
         

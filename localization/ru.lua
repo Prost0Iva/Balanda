@@ -11,7 +11,7 @@ return {
             bda_thu = "Четверг",
             bda_fri = "Пятница",
             bda_sat = "Суббота"
-            
+
         },
         challenge_names={
             c_bda_evo_joker = "Чел"
@@ -126,6 +126,15 @@ return {
                 },
                 unlock={
                     "{E:1,s:1.3}?????"
+                }
+            },
+            j_bda_steve = {
+                name = "Стив",
+                text = {
+                    "Если в {C:attention}первой руке{} раунда",
+                    "только {C:attention}каменные карты{}",
+                    "превращает их в {C:attention}стальные,",
+                    "{C:attention}золотые и алмазные карты"
                 }
             }
         },

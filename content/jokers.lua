@@ -184,16 +184,14 @@ local steve = {
         info_queue[#info_queue+1] = G.P_CENTERS.m_bda_diamond
     end,
 
-    config = {
-        enh = {
-            G.P_CENTERS.m_stone,
+    config = { },
+
+    calculate = function(self, card, context)
+        local enh_list = {
             G.P_CENTERS.m_steel,
             G.P_CENTERS.m_gold,
             G.P_CENTERS.m_bda_diamond
         }
-    },
-
-    calculate = function(self, card, context)
         if context.setting_blind then
             local eval = function() return G.GAME.current_round.hands_played == 0 end
             juice_card_until(card, eval, true)
@@ -206,6 +204,7 @@ local steve = {
                 if not v.debuff then
                     if v.config.center == G.P_CENTERS.m_stone then 
                         stone[#stone+1] = v
+                        sendDebugMessage('Добавилось в стоне')
                     else
                         return true
                     end 
@@ -213,19 +212,20 @@ local steve = {
             end
             if #stone ~= 0 then
                 for k, v in ipairs(stone) do
-                    local enh = card.ability.enh[pseudorandom('steve', 1, #card.ability.enh)]
+                    local enh = enh_list[pseudorandom('steve', 1, #enh_list)]
                     v:set_ability(enh, nil, true)
+                    sendDebugMessage('Превратилось в чёто')
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             v:juice_up()
                             return true
                         end
-                    })) 
-                    return {
-                        message = localize("k_bda_mine")
-                    }
+                    }))
                 end
             end
+            return {
+                message = localize("k_bda_mine")
+            }
         end
     end
     
