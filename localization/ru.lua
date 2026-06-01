@@ -184,10 +184,12 @@ return {
             m_bda_diamond = {
                 name = "Алмазная карта",
                 text = {
-                    "{C:money}$#1#{} при {C:red}сбросе",
+                    "{C:money}$#1#{} при использовании {C:red}сброса",
                     "{X:chips,C:white}X#2#{} фишек за каждые {C:money}$#3#",
+                    "после разыгрывание джокеров,",
                     "пока эта карта остается в руке",
-                    "{C:inactive}(сейчас {X:chips,C:white}X#4#{C:inactive})"
+                    "{C:inactive}(сейчас {X:chips,C:white}X#4#{C:inactive})",
+                    "{C:inactive}(макс. {X:chips,C:white}X#5#{C:inactive})"
                 }
             }
         }

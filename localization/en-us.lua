@@ -184,10 +184,12 @@ return {
             m_bda_diamond = {
                 name = "Diamond Card",
                 text = {
-                    "{C:money}$#1#{} when {C:red}discarded",
+                    "{C:money}$#1#{} when {C:red}discard{} is used",
                     "{X:chips,C:white}X#2#{} Chips for each {C:money}$#3#",
+                    "after playing Jokers",
                     "if this card is held in hand",
-                    "{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive})"
+                    "{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive})",
+                    "{C:inactive}(Max {X:chips,C:white}X#5#{C:inactive})"
                 }
             }
         }
