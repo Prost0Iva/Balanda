@@ -232,6 +232,8 @@ local steve = { --Steve
 }
 
 local bad_apple = { --BadApple
+    name = "bda_BadApple",
+
     key = "bad_apple",
     rarity = 3,
     atlas = "bad_apple",
@@ -246,10 +248,31 @@ local bad_apple = { --BadApple
     
     end,
 
-    config = { },
+    config = { atlas_y = 0 },
 
     calculate = function(self, card, context)
     
+    end,
+
+    update = function(self, card, dt)
+        local sprite = card.children.center
+        --sendDebugMessage(tostring(sprite.current_animation.current))
+        --for k, v in pairs(sprite.animation) do
+        --    sendDebugMessage("animation: " .. tostring(k) .." ".. tostring(type(v)) .." ".. tostring(v))
+        --end
+        --for k, v in pairs(sprite.current_animation) do
+        --    sendDebugMessage("current_animation: " .. tostring(k) .." ".. tostring(type(v)) .." ".. tostring(v))
+        --end
+        
+        local frame = sprite.current_animation.current
+        if frame >= 211 then
+            if card.ability.atlas_y == 30 then
+                card.ability.atlas_y = 0
+            else
+                card.ability.atlas_y = card.ability.atlas_y + 1
+            end
+            sprite:set_sprite_pos({x = 0, y = card.ability.atlas_y})
+        end
     end
     
 }

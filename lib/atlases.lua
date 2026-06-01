@@ -4,7 +4,7 @@ local evo = {key = 'evo', path = 'Evo.png', px = 83, py = 125}
 local wild_shard = {key = 'wild_shard', path = 'WildShard.png', atlas_table = 'ANIMATION_ATLAS', frames = 10, fps = 6, px = 71, py = 95}
 local enhancements = {key = 'enhancements', path = 'Enhancements.png', px = 71, py = 95}
 local consumables = {key = 'consumables', path = 'Consumables.png', px = 71, py = 95}
-local bad_apple = {key = 'bad_apple', path = 'BadApple.png', atlas_table = 'ANIMATION_ATLAS', frames = 6572, fps = 30, px = 71, py = 95}
+local bad_apple = {key = 'bad_apple', path = 'BadApple.png', atlas_table = 'ANIMATION_ATLAS', frames = 212, fps = 30, px = 71, py = 95}
 
 local content = {
     vouchers,
