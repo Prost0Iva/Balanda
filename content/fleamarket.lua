@@ -40,12 +40,24 @@ Game.update = function(self, dt)
     bda_update(self, dt)
 
     if G.STATE == G.STATES.BDA_TEST and not G.STATE_COMPLETE then
-        G.STATE_COMPLETE = true
+      G.bda_test = UIBox{
+        definition = {n=G.UIT.ROOT,
+        nodes = bda_create_test_ui(),
+        config = {align="cm", colour = G.C.CLEAR}},
+        config = {align='cm', offset = {x=0,y=10}, major = G.hand, bond = 'Weak'}}
+        
+      G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+          G.bda_test.alignment.offset.y = 0
+          G.bda_test.alignment.offset.x = 0
+          return true
+        end
+      }))
+      
+      G.STATE_COMPLETE = true
 
-        G.bda_test = UIBox{
-          definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR},
-          nodes = bda_create_test_ui()},
-          config = {align="cm",major = G.ROOM_ATTACH}}
+      
     end
 end
 
@@ -58,9 +70,10 @@ function bda_create_test_ui()
     {card_limit = G.GAME.bda_fleamarket.joker_max, type = 'shop', highlight_limit = 1})
 
   local t = {
-    {n=G.UIT.C, config={align = "cm", padding = 0.1, emboss = 0.05, r = 0.1, colour = G.C.DYN_UI.BOSS_MAIN}, nodes={
-      {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
-        {n=G.UIT.C, config={align = "cm", padding = 0.1}, nodes={
+    {n=G.UIT.R, config={align = "tm", padding = 0.1, emboss = 0.05, r = 0.1, minh = 12, colour = G.C.DYN_UI.BOSS_MAIN}, nodes={
+          {n=G.UIT.R, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.L_BLACK, emboss = 0.05, minw = 8.2}, nodes={
+              {n=G.UIT.O, config={object = G.test_jokers}},
+          }},
           {n=G.UIT.R,config={id = 'next_round_button', align = "cm", minw = 2.8, minh = 1.5, r=0.15,colour = G.C.RED, one_press = true, button = 'bda_leave_test', hover = true,shadow = true}, nodes = {
             {n=G.UIT.R, config={align = "cm", padding = 0.07, focus_args = {button = 'y', orientation = 'cr'}, func = 'set_button_pip'}, nodes={
               {n=G.UIT.R, config={align = "cm", maxw = 1.3}, nodes={
@@ -69,15 +82,11 @@ function bda_create_test_ui()
               {n=G.UIT.R, config={align = "cm", maxw = 1.3}, nodes={
                 {n=G.UIT.T, config={text = localize('b_next_round_2'), scale = 0.4, colour = G.C.WHITE, shadow = true}}
               }}   
-            }},              
+            }}            
           }}
-        }},
-        {n=G.UIT.C, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.L_BLACK, emboss = 0.05, minw = 8.2}, nodes={
-            {n=G.UIT.O, config={object = G.test_jokers}},
-        }}}
+        }
       }
-    }}
-  }
+    }
   
   for i = 1, G.GAME.bda_fleamarket.joker_max do
     local area = G.test_jokers
@@ -98,4 +107,12 @@ G.FUNCS.bda_leave_test = function(e)
     end
     G.STATE_COMPLETE = false
     G.STATE = G.STATES.BLIND_SELECT
+end
+
+local bda_cardarea_draw = CardArea.draw
+CardArea.draw = function(self)
+    if self.config.type == 'hand' and G.STATE == G.STATES.BDA_TEST then
+        return
+    end
+    bda_cardarea_draw(self)
 end
