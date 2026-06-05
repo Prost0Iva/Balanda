@@ -171,7 +171,7 @@ local steve = { --Steve
     rarity = 2,
     atlas = "jokers",
     pos = {x = 2, y = 0},
-    cost = 5,
+    cost = 7,
     blueprint_compat = true,
 
     discovered = false,
@@ -204,7 +204,6 @@ local steve = { --Steve
                 if not v.debuff then
                     if v.config.center == G.P_CENTERS.m_stone then 
                         stone[#stone+1] = v
-                        sendDebugMessage('Добавилось в стоне')
                     else
                         return true
                     end 
@@ -213,11 +212,10 @@ local steve = { --Steve
             if #stone ~= 0 then
                 for k, v in ipairs(stone) do
                     local enh = enh_list[pseudorandom('steve', 1, #enh_list)]
-                    v:set_ability(enh, nil, true)
-                    sendDebugMessage('Превратилось в чёто')
+                    card:set_ability(enh, nil, true)
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            v:juice_up()
+                            card:juice_up()
                             return true
                         end
                     }))
@@ -238,7 +236,7 @@ local bad_apple = { --BadApple
     rarity = 3,
     atlas = "bad_apple",
     pos = {x = 0, y = 0},
-    cost = 0,
+    cost = 99,
     blueprint_compat = true,
 
     discovered = false,
@@ -263,24 +261,178 @@ local bad_apple = { --BadApple
         --for k, v in pairs(sprite.current_animation) do
         --    sendDebugMessage("current_animation: " .. tostring(k) .." ".. tostring(type(v)) .." ".. tostring(v))
         --end
-        
-        local frame = sprite.current_animation.current
-        if frame >= 211 then
-            if card.ability.atlas_y == 30 then
-                card.ability.atlas_y = 0
-            else
-                card.ability.atlas_y = card.ability.atlas_y + 1
+        if sprite.current_animation ~= nil then
+            local frame = sprite.current_animation.current
+            if frame >= 211 then
+                if card.ability.atlas_y == 30 then
+                    card.ability.atlas_y = 0
+                else
+                    card.ability.atlas_y = card.ability.atlas_y + 1
+                end
+                sprite:set_sprite_pos({x = 0, y = card.ability.atlas_y})
             end
-            sprite:set_sprite_pos({x = 0, y = card.ability.atlas_y})
         end
     end
     
 }
 
+local gorgon = { --Gorgon
+    key = "gorgon",
+    rarity = 2,
+    atlas = "jokers",
+    pos = {x = 2, y = 1},
+    cost = 7,
+    blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
+
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+    end,
+
+    calculate = function(self, card, context)
+        if context.pre_discard then
+            local trig = false
+            for k, v in ipairs(context.full_hand) do
+                if not v.debuff and card:is_face() then
+                    card:set_ability(G.P_CENTERS.m_stone, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            card:juice_up()
+                            return true
+                        end
+                    }))
+                    trig = true
+                end
+            end
+            if trig then
+                return {
+                message = localize("k_bda_gorgon")
+            }
+            end
+        end
+    end
+    
+}
+
+local wallnut = { --Wall-Nut
+    key = "wallnut",
+    rarity = 1,
+    atlas = "jokers",
+    pos = {x = 3, y = 0},
+    cost = 5,
+    blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
+
+    config = {
+        blind_chips = 0,
+        chips = 80,
+        extra = 2
+    },
+
+    loc_vars = function (self, info_queue, card)
+        return {
+            vars = {
+                card.ability.chips,
+                card.ability.extra
+            }
+        }
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                chips = card.ability.chips
+            }
+        end
+        if G.GAME.chips then
+            local new_blind_chips = G.GAME.chips
+            if card.ability.blind_chips ~= new_blind_chips and G.GAME.chips - G.GAME.blind.chips <= 0 then
+                card.ability.chips = card.ability.chips - card.ability.extra
+                card.ability.blind_chips = new_blind_chips
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('bda_chomp')
+                        card:juice_up(0.3, 0.4)
+                        if card.ability.chips <= 0 then
+                            card:flip()
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                            return true; end})) 
+                        end
+                        return true
+                    end
+                }))
+                return {
+                    message = localize{type='variable',key='a_chips_minus',vars={card.ability.extra}},
+                    colour = G.C.CHIPS
+                }
+            end
+        end
+        if context.end_of_round then
+            card.ability.blind_chips = 0
+        end
+    end
+    
+}
+
+local mimicry = { --Mimicry
+    key = "mimicry",
+    rarity = 3,
+    atlas = "jokers",
+    pos = {x = 3, y = 1},
+    cost = 8,
+    blueprint_compat = false,
+
+    discovered = false,
+    unlocked = true,
+
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue+1] = { key = "bda_mimic", set = "Other"}
+    end,
+
+    calculate = function(self, card, context)
+        if context.setting_blind then
+            local keys_pool, another_joker = {}, false
+            for k, v in ipairs(G.jokers.cards) do
+                if v ~= card then
+                    keys_pool[#keys_pool + 1] = v.config.center.key
+                    another_joker = true
+                    sendDebugMessage("Нашел другого джокера")
+                end
+            end
+            if not another_joker and #keys_pool == 0 then
+                for k, v in pairs(G.P_CENTERS) do
+                    if G.P_CENTERS[k].unlocked and k:sub(1, 2) == "j_" and k ~= "j_bda_mimicry" then
+                        keys_pool[#keys_pool + 1] = k
+                    end
+                end
+            end
+            
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip();play_sound('card1', percent);card:juice_up(0.3, 0.3);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.4,func = function() 
+                card:set_ability(keys_pool[pseudorandom('mimicry', 1, #keys_pool)])
+                card:add_sticker('bda_mimic', true)
+                card:juice_up(0.3, 0.3)
+            return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip();play_sound('card1', percent);card:juice_up(0.3, 0.3);return true end }))
+        end
+    end
+}
+
 local content = {
     calendar,
+    wallnut,
+    gorgon,
     steve,
-    bad_apple,
+    mimicry,
+    --bad_apple,
     teto
 }
 for _, v in ipairs(content) do

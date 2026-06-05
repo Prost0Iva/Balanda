@@ -27,8 +27,8 @@ local wild_shard = {
     use = function (self, card, area, copier)
         local can_evo, can_evo_keys = {}, {}
         for k, v in pairs(G.P_CENTERS) do
-            if G.P_CENTERS[k].rarity == "bda_evo" then
-                if G.P_CENTERS[k].unlocked then
+            if G.P_CENTERS[k].rarity == "bda_evo" and G.P_CENTERS[k].unlocked then
+                if G.P_CENTERS[k].unlocked                                                                                                                                                                                            then
                     can_evo["j" .. k:sub(6)] = true
                 end
                 can_evo_keys[#can_evo_keys + 1] = "j" .. k:sub(6)

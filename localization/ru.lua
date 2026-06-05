@@ -3,6 +3,7 @@ return {
         dictionary = {
             k_bda_evo = "Эволюция",
             k_bda_mine = "Добыл",
+            k_bda_gorgon = "Вижу тебя",
 
             bda_sun = "Воскресенье",
             bda_mon = "Понедельник",
@@ -15,6 +16,9 @@ return {
         },
         challenge_names={
             c_bda_evo_joker = "Чел"
+        },
+        labels = {
+            bda_mimic = "Мимик"
         },
         v_text={
             ch_c_bda_very_big_blinds={
@@ -39,6 +43,18 @@ return {
     },
     descriptions = {
         Other = {
+            --Stickers
+            bda_mimic = {
+                name = "Мимик",
+                text = {
+                    "Превращается в вашего случайного",
+                    "{C:attention}джокера{} с каждой рукой,",
+                    "становится {C:attention}Мимикрией{}",
+                    "при заходе в магазин",
+                },
+            },
+
+            --Calendar
             bda_mon_eff = {
                 name = "Понедельник",
                 text = {
@@ -136,6 +152,31 @@ return {
                     "превращает их в {C:attention}стальные,",
                     "{C:attention}золотые и алмазные карты"
                 }
+            },
+            j_bda_gorgon = {
+                name = "Медуза Горгона",
+                text = {
+                    "Все сброшенные карты {C:attention}с лицом{}",
+                    "становятся {C:attention}каменными{}"
+                }
+            },
+            j_bda_wallnut = {
+                name = "Стенорех",
+                text = {
+                    "{C:chips}+#1#{} фишек",
+                    "{C:chips}-#2#{} фишки за",
+                    "каждую сыгранную руку",
+                    "не победившую блайнд"
+                }
+            },
+            j_bda_mimicry = {
+                name = "Мимикрия",
+                text = {
+                    "При выборе {C:attention}блайнда{}",
+                    "превращается в случайного",
+                    "джокера с наклейкой {C:attention}Мимик{}",
+                    "{C:inactive,s:0.8}(кроме Мимикрии)",
+                },
             }
         },
         Voucher = {

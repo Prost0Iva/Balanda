@@ -3,6 +3,7 @@ return {
         dictionary = {
             k_bda_evo = "Evolution",
             k_bda_mine = "Mine",
+            k_bda_gorgon = "See You",
 
             bda_sun = "Sunday",
             bda_mon = "Monday",
@@ -15,6 +16,9 @@ return {
         },
         challenge_names={
             c_bda_evo_joker = "Chell"
+        },
+        labels = {
+            bda_mimic = "Mimic"
         },
         v_text={
             ch_c_bda_very_big_blinds={
@@ -39,6 +43,18 @@ return {
     },
     descriptions = {
         Other = {
+            --Stickers
+            bda_mimic = {
+                name = "Mimic",
+                text = {
+                    "Becomes a random owned",
+                    "{C:attention}Joker{} each hand played,",
+                    "reverts to {C:attention}Mimicry",
+                    "when entering the shop",
+                },
+            },
+
+            --Calendar
             bda_mon_eff = {
                 name = "Monday",
                 text = {
@@ -136,6 +152,31 @@ return {
                     "converts them into",
                     "{C:attention}Steel, Gold and Diamond cards"
                 }
+            },
+            j_bda_gorgon = {
+                name = "Gorgon Medusa",
+                text = {
+                    "All discarded {C:attention}face{} cards",
+                    "become {C:attention}Stone cards"
+                }
+            },
+            j_bda_wallnut = {
+                name = "Wall-Nut",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "{C:chips}-#2#{} Chips for",
+                    "every hand played",
+                    "that doesn't win the blind"
+                }
+            },
+            j_bda_mimicry = {
+                name = "Mimicry",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "become a random owned {C:attention}Joker",
+                    "with the {C:attention}Mimic{} sticker",
+                    "{C:inactive,s:0.8}(Mimicry excluded)",
+                },
             }
         },
         Voucher = {
