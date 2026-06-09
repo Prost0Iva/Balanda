@@ -426,11 +426,67 @@ local mimicry = { --Mimicry
     end
 }
 
+local ena = { --Ena
+    key = "ena",
+    rarity = 2,
+    atlas = "ena",
+    pos = {x = 0, y = 0},
+    cost = 99,
+    blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
+
+    loc_vars = function (self, info_queue, card)
+    
+    end,
+
+    config = { },
+
+    calculate = function(self, card, context)
+    
+    end,
+
+    update = function(self, card, dt)
+
+    end
+    
+}
+
+local ena1 = { --Ena Temp
+    key = "ena1",
+    rarity = 2,
+    atlas = "ena",
+    pos = {x = 0, y = 1},
+    cost = 99,
+    blueprint_compat = true,
+
+    discovered = false,
+    unlocked = true,
+
+    loc_vars = function (self, info_queue, card)
+    
+    end,
+
+    config = { },
+
+    calculate = function(self, card, context)
+    
+    end,
+
+    update = function(self, card, dt)
+
+    end
+    
+}
+
 local content = {
     calendar,
     wallnut,
     gorgon,
     steve,
+    ena,
+    ena1,
     mimicry,
     --bad_apple,
     teto

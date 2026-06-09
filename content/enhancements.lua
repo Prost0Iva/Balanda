@@ -8,7 +8,7 @@ local diamond = {
             x_per_dol = 0.1,
             dol_req = 5,
             dollars = 1,
-            max = 3
+            max = 2
         },
     },
 

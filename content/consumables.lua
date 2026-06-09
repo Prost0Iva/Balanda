@@ -27,7 +27,7 @@ local wild_shard = {
     use = function (self, card, area, copier)
         local can_evo, can_evo_keys = {}, {}
         for k, v in pairs(G.P_CENTERS) do
-            if G.P_CENTERS[k].rarity == "bda_evo" and G.P_CENTERS[k].unlocked then
+            if G.P_CENTERS[k].rarity == "bda_evo" then
                 if G.P_CENTERS[k].unlocked                                                                                                                                                                                            then
                     can_evo["j" .. k:sub(6)] = true
                 end
@@ -52,12 +52,14 @@ local wild_shard = {
                 end
             end
         end
-        if not temp then
+        if not temp and #G.jokers.cards < G.jokers.config.card_limit then
             local key = can_evo_keys[pseudorandom('wild_shard', 1, #can_evo_keys)]
-            local joker = create_card("Joker", G.jokers, nil, nil, nil, nil, key)
-            joker:add_to_deck()
-		    G.jokers:emplace(joker)
-            card:juice_up(0.3, 0.3)
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.4,func = function()
+                local joker = create_card("Joker", G.jokers, nil, nil, nil, nil, key)
+                joker:add_to_deck()
+		        G.jokers:emplace(joker)
+                card:juice_up(0.3, 0.3)
+            return true end }))
         end
         G.jokers:unhighlight_all()
     end,
