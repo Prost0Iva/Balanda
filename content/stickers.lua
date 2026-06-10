@@ -8,7 +8,7 @@ SMODS.Sticker{
         if context.final_scoring_step then
             local keys_pool, another_joker = {}, false
             for k, v in ipairs(G.jokers.cards) do
-                if v ~= card then
+                if v ~= card and v.config.center.key ~= "j_bda_mimicry" and not v.ability.bda_mimic then
                     keys_pool[#keys_pool + 1] = v.config.center.key
                     another_joker = true
                     sendDebugMessage("Нашел другого джокера")
