@@ -14,10 +14,12 @@ function Game:init_game_object() --Хук на добавление своих �
 	local g = bda_igo(self)
 
     g.bda_fools_count = 0
-
     g.bda_fleamarket = {
         joker_max = 5
     }
+    g.bda_small_wins = 0
+    g.bda_big_wins = 0
+    g.bda_boss_wins = 0
 
     return g
 end
@@ -61,4 +63,18 @@ function G.FUNCS.can_reroll(e)
 		return bda_can_reroll(e)
 	end
 
+end
+
+local bda_end_round = end_round
+end_round = function()
+
+    if G.GAME.blind:get_type() == 'Small' then
+        G.GAME.bda_small_wins = G.GAME.bda_small_wins + 1
+    elseif G.GAME.blind:get_type() == 'Big' then
+        G.GAME.bda_big_wins = G.GAME.bda_big_wins + 1
+    elseif G.GAME.blind:get_type() == 'Boss' then
+        G.GAME.bda_boss_wins = G.GAME.bda_boss_wins + 1
+    end
+
+    bda_end_round()
 end

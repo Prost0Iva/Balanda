@@ -4,6 +4,8 @@ return {
             k_bda_evo = "Evolution",
             k_bda_mine = "Mine",
             k_bda_gorgon = "See You",
+            k_bda_ena = "Bless you for your business",
+            k_bda_ena1 = "WHERE THE HELL IS THE BOSS?!",
 
             bda_sun = "Sunday",
             bda_mon = "Monday",
@@ -177,7 +179,29 @@ return {
                     "with the {C:attention}Mimic{} sticker",
                     "{C:inactive,s:0.8}(Mimicry excluded)",
                 },
-            }
+            },
+            j_bda_ena_red = {
+                name = "Ena",
+                text = {
+                    "{C:mult}+#1#/#2#/#3#{} Mult per",
+                    "{C:attention}Small{}/{C:attention}Big{}/{C:attention}Boss Blind",
+                    "defeated this run",
+                    "Changes state when",
+                    "a {C:attention}Blind{} is skipped",
+                    "{C:inactive}(Currently {C:mult}+#4#{C:inactive} Mult)",
+                },
+            },
+            j_bda_ena_white = {
+                name = "Ena",
+                text = {
+                    "{C:chips}+#1#/#2#/#3#{} Chips per",
+                    "{C:attention}Small{}/{C:attention}Big{}/{C:attention}Boss Blind",
+                    "defeated this run",
+                    "Changes state when",
+                    "a {C:attention}Blind{} is skipped",
+                    "{C:inactive}(Currently {C:chips}+#4#{C:inactive} Chips)",
+                },
+            },
         },
         Voucher = {
             v_bda_amnesia = {

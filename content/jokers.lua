@@ -404,7 +404,7 @@ local mimicry = { --Mimicry
                 if v ~= card then
                     keys_pool[#keys_pool + 1] = v.config.center.key
                     another_joker = true
-                    sendDebugMessage("Нашел другого джокера")
+                    --sendDebugMessage("Нашел другого джокера")
                 end
             end
             if not another_joker and #keys_pool == 0 then
@@ -431,47 +431,84 @@ local ena = { --Ena
     rarity = 2,
     atlas = "ena",
     pos = {x = 0, y = 0},
-    cost = 99,
+    cost = 6,
     blueprint_compat = true,
 
     discovered = false,
     unlocked = true,
 
     loc_vars = function (self, info_queue, card)
-    
+        if card.ability.state == "red" then
+            return {
+                key = self.key..'_red',
+                vars = {card.ability.extra.mult_small, card.ability.extra.mult_big, card.ability.extra.mult_boss, card.ability.mult}
+            }
+        elseif card.ability.state == "white" then
+            return {
+                key = self.key..'_white',
+                vars = {card.ability.extra.chips_small, card.ability.extra.chips_big, card.ability.extra.chips_boss, card.ability.chips}
+            }
+        end
     end,
 
-    config = { },
+    config = {
+        state = "red",
+        chips = 0,
+        mult = 0,
+        extra = {
+            mult_small = 2,
+            mult_big = 4,
+            mult_boss = 8,
+
+            chips_small = 10,
+            chips_big = 15,
+            chips_boss = 20,
+        }
+    },
 
     calculate = function(self, card, context)
-    
-    end,
+        card.ability.chips = G.GAME.bda_small_wins * card.ability.extra.chips_small + G.GAME.bda_big_wins * card.ability.extra.chips_big + G.GAME.bda_boss_wins * card.ability.extra.chips_boss
+        card.ability.mult = G.GAME.bda_small_wins * card.ability.extra.mult_small + G.GAME.bda_big_wins * card.ability.extra.mult_big + G.GAME.bda_boss_wins * card.ability.extra.mult_boss
 
-    update = function(self, card, dt)
+        if card.ability.state == "red" then
+            card.children.center:set_sprite_pos({x = 0, y = 0})
+            if context.joker_main then
+                return { mult = card.ability.mult }
+            end
+        elseif card.ability.state == "white" then
+            card.children.center:set_sprite_pos({x = 0, y = 1})
+            if context.joker_main then
+                return { chips = card.ability.chips }
+            end
+        end
 
-    end
-    
-}
+        if context.end_of_round and context.cardarea == G.jokers then
+            return { message = localize("k_upgrade_ex") } 
+        end
 
-local ena1 = { --Ena Temp
-    key = "ena1",
-    rarity = 2,
-    atlas = "ena",
-    pos = {x = 0, y = 1},
-    cost = 99,
-    blueprint_compat = true,
-
-    discovered = false,
-    unlocked = true,
-
-    loc_vars = function (self, info_queue, card)
-    
-    end,
-
-    config = { },
-
-    calculate = function(self, card, context)
-    
+        if context.skip_blind then
+            if card.ability.state == "red" then
+                card.ability.state = "white"
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                    card:juice_up(0.8, 0.5)
+                    card.children.center:set_sprite_pos({x = 0, y = 1})
+                return true end }))
+                return {
+                    message = localize("k_bda_ena1"),
+                    colour = HEX("f4e7c7")
+                }
+            elseif card.ability.state == "white" then
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                    card:juice_up(0.8, 0.5)
+                    card.children.center:set_sprite_pos({x = 0, y = 0})
+                return true end }))
+                card.ability.state = "red"
+                return {
+                    message = localize("k_bda_ena"),
+                    colour = HEX("e03b39")
+                }
+            end
+        end
     end,
 
     update = function(self, card, dt)
@@ -486,7 +523,6 @@ local content = {
     gorgon,
     steve,
     ena,
-    ena1,
     mimicry,
     --bad_apple,
     teto
