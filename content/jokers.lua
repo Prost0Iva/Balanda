@@ -212,10 +212,10 @@ local steve = { --Steve
             if #stone ~= 0 then
                 for k, v in ipairs(stone) do
                     local enh = enh_list[pseudorandom('steve', 1, #enh_list)]
-                    card:set_ability(enh, nil, true)
+                    v:set_ability(enh, nil, true)
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            card:juice_up()
+                            v:juice_up()
                             return true
                         end
                     }))
@@ -295,11 +295,11 @@ local gorgon = { --Gorgon
         if context.pre_discard then
             local trig = false
             for k, v in ipairs(context.full_hand) do
-                if not v.debuff and card:is_face() then
-                    card:set_ability(G.P_CENTERS.m_stone, nil, true)
+                if not v.debuff and v:is_face() then
+                    v:set_ability(G.P_CENTERS.m_stone, nil, true)
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            card:juice_up()
+                            v:juice_up()
                             return true
                         end
                     }))
