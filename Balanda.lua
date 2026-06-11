@@ -5,9 +5,11 @@
 local mod_path = SMODS.current_mod.path
 local lib = NFS.getDirectoryItems(mod_path .. "lib")
 local content = NFS.getDirectoryItems(mod_path .. "content")
+local keychains = NFS.getDirectoryItems(mod_path .. "keychains")
 local files = {
     lib = lib,
-    content = content
+    content = content,
+    keychains = keychains
 }
 for k, v in pairs(files) do
     for _, f in ipairs(v) do
@@ -15,7 +17,6 @@ for k, v in pairs(files) do
         SMODS.load_file(k .. "/" .. f)()
     end
 end
-
 SMODS.Rarity{ --добавление своей редкости
     key = "evo",
     badge_colour = HEX("9415e3"),

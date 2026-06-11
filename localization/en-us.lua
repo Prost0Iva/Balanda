@@ -1,6 +1,8 @@
 return {
     misc = {
         dictionary = {
+            b_keychains = "Keyckains",
+
             k_bda_evo = "Evolution",
             k_bda_mine = "Mine",
             k_bda_gorgon = "See You",
