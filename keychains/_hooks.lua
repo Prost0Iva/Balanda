@@ -35,3 +35,57 @@ SMODS.trigger_effects = function(effects, card)
 
     return ret
 end
+
+local bda_generate_UIBox = Card.generate_UIBox_ability_table
+function Card:generate_UIBox_ability_table()
+    local full_UI_table = bda_generate_UIBox(self)
+    
+    if self.keychains then
+        full_UI_table.badges[#full_UI_table.badges + 1] = 'bda_keychains'
+        for k, v in pairs(self.keychains) do
+            if v and SMODS.Keychains[k] then
+                local keychain = SMODS.Keychains[k]
+                local new_info, vars = {}, {}
+
+                new_info.name = G.localization.descriptions.Keychains[k] and G.localization.descriptions.Keychains[k].name or k
+                if keychain.loc_vars and type(keychain.loc_vars) == 'function' then
+                    local info_queue = {}
+                    local loc_vars_result = keychain:loc_vars(info_queue, self)
+                    vars = loc_vars_result and loc_vars_result.vars or {}
+                    -- добавляем всё что loc_vars положил в info_queue
+                    for _, v in ipairs(info_queue) do
+                        generate_card_ui(v, full_UI_table)
+                    end
+                end
+
+                localize{
+                    type = 'descriptions',
+                    key = k,
+                    set = 'Keychains',
+                    nodes = new_info,
+                    vars = vars
+                }
+                full_UI_table.info[#full_UI_table.info + 1] = new_info
+            end
+        end
+    end
+    
+    return full_UI_table
+end
+
+local bda_card_save = Card.save
+function Card:save()
+    local cardTable = bda_card_save(self)
+
+    cardTable.keychains = self.keychains
+
+    return cardTable
+end
+
+local bda_load_card = Card.load
+function Card:load(cardTable, other_card)
+    bda_load_card(self, cardTable, other_card)
+
+    self.keychains = cardTable.keychains
+
+end

@@ -17,31 +17,27 @@ SMODS.Keychain = SMODS.GameObject:extend {
         end,
     pre_inject_class = function(self)
             G.shared_keychains = G.shared_keychains or {}
-            --G.keychains = G.keychains or {}
-            --G.localization.descriptions.Keychains = G.localization.descriptions.Keychains or {}
         end,
     inject = function(self)
-            --G.keychains[self.key] = self
             self.keychain_sprite = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[self.atlas], self.pos)
             G.shared_keychains[self.key] = self.keychain_sprite
-            --sendDebugMessage('key: '..self.key)
-            --sendDebugMessage('loc: '..tostring(G.localization.descriptions.Keychains[self.key]))
+            G.BADGE_COL = G.BADGE_COL or {}
+            G.BADGE_COL['bda_keychains'] = self.badge_colour
         end,
     process_loc_text = function(self)
             SMODS.process_loc_text(G.localization.descriptions.Keychains, self.key, self.loc_txt)
-            SMODS.process_loc_text(G.localization.misc.labels, self.key, self.loc_txt, 'label')
         end,
     set = 'Keychain',
     atlas = 'bda_keychains',
     pos = {x = 0, y = 0},
-    badge_colour = HEX('FFFFFF'),
+    badge_colour = HEX('b2b5c2'),
     default_compat = true,
     sets = {Joker = true},
     needs_enable_flag = true,
     apply = function(self, card, val)
         card.keychains = card.keychains or {}
         card.keychains[self.key] = val
-    end
+    end,
 }
 
 SMODS.DrawStep {
@@ -50,7 +46,6 @@ SMODS.DrawStep {
     func = function(self, layer)
         if self.keychains and next(self.keychains) then
             for k, v in pairs(self.keychains) do
-                SMODS.Keychains[k]:process_loc_text()
                 G.shared_keychains[k].role.draw_major = self
                 G.shared_keychains[k]:draw_shader('dissolve', nil, nil, nil, self.children.center, nil, nil, 1.014, 2.299)
             end
@@ -75,7 +70,7 @@ function Card:calculate_keychain(context, key)
     end
 end
 
-    -- UI
+-- UI
 SMODS.current_mod.custom_collection_tabs = function()
     return {
         UIBox_button({

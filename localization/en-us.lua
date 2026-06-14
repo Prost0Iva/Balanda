@@ -1,7 +1,7 @@
 return {
     misc = {
         dictionary = {
-            b_keychains = "Keyckains",
+            b_keychains = "Keychains",
 
             k_bda_evo = "Evolution",
             k_bda_mine = "Mine",
@@ -24,7 +24,7 @@ return {
         labels = {
             bda_mimic = "Mimic",
 
-            kch_bda_jimbo = 'Jimbo'
+            bda_keychains = 'Keychains'
         },
         v_text={
             ch_c_bda_very_big_blinds={
@@ -52,8 +52,7 @@ return {
             kch_bda_jimbo = {
                 name = "Jimbo",
                 text = {
-                    "1",
-                    "2",
+                    "{C:mult}+#1#{} Mult",
                 }
             },
         },
