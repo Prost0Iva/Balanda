@@ -2,6 +2,8 @@ return {
     misc = {
         dictionary = {
             b_keychains = "Keychains",
+            b_packaging_cards = 'Packaging',
+            k_packaging = 'Packaging',
 
             k_bda_evo = "Evolution",
             k_bda_mine = "Mine",
@@ -50,13 +52,47 @@ return {
     descriptions = {
         Keychains = {
             kch_bda_jimbo = {
-                name = "Jimbo",
+                name = "Lil Jimbo",
                 text = {
                     "{C:mult}+#1#{} Mult",
                 }
             },
+            kch_bda_jolly = {
+                name = "Lil Jolly",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                }
+            },
+            kch_bda_perkeo = {
+                name = "Lil Perkeo",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                }
+            },
+            kch_bda_miku = {
+                name = "Miku",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chips",
+                }
+            },
+            kch_bda_lucky_penny = {
+                name = "Lucky Penny",
+                text = {
+                    "{C:money}$#1#{}",
+                }
+            },
         },
         Other = {
+            undiscovered_packaging = {
+                name="Not Discovered",
+                text={
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
+
             --Stickers
             bda_mimic = {
                 name = "Mimic",
@@ -247,7 +283,7 @@ return {
                 }
             }
         },
-        Tarot  = {
+        Tarot={
             c_bda_perseverance = {
                 name = "Perseverance",
                 text = {
@@ -256,6 +292,43 @@ return {
                     "and convert to {C:attention}Diamonds"
                 }
             }
+        },
+        packaging={
+            c_bda_jimbo = {
+                name = "Lil Jimbo Packaging",
+                text = {
+                    "Attaches a {C:attention}Keychain{} to a",
+                    "selected {C:attention}Joker",
+                },
+            },
+            c_bda_jolly = {
+                name = "Lil Jolly Packaging",
+                text = {
+                    "Attaches a {C:attention}Keychain{} to a",
+                    "selected {C:attention}Joker",
+                },
+            },
+            c_bda_perkeo = {
+                name = "Lil Perkeo Packaging",
+                text = {
+                    "Attaches a {C:attention}Keychain{} to a",
+                    "selected {C:attention}Joker",
+                },
+            },
+            c_bda_miku = {
+                name = "Miku Packaging",
+                text = {
+                    "Attaches a {C:attention}Keychain{} to a",
+                    "selected {C:attention}Joker",
+                },
+            },
+            c_bda_lucky_penny = {
+                name = "Lucky Penny Packaging",
+                text = {
+                    "Attaches a {C:attention}Keychain{} to a",
+                    "selected {C:attention}Joker",
+                },
+            },
         },
         Enhanced={
             m_bda_diamond = {
@@ -269,6 +342,6 @@ return {
                     "{C:inactive}(Max {X:chips,C:white}X#5#{C:inactive})"
                 }
             }
-        }
+        },
     }
 }
