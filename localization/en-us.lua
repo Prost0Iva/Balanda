@@ -22,7 +22,9 @@ return {
             c_bda_evo_joker = "Chell"
         },
         labels = {
-            bda_mimic = "Mimic"
+            bda_mimic = "Mimic",
+
+            kch_bda_jimbo = 'Jimbo'
         },
         v_text={
             ch_c_bda_very_big_blinds={
@@ -46,6 +48,15 @@ return {
         }
     },
     descriptions = {
+        Keychains = {
+            kch_bda_jimbo = {
+                name = "Jimbo",
+                text = {
+                    "1",
+                    "2",
+                }
+            },
+        },
         Other = {
             --Stickers
             bda_mimic = {

@@ -108,9 +108,36 @@ local perseverance = {
 
 }
 
+local test = {
+    set = 'Tarot',
+    key = "test",
+    unlocked = true,
+    discovered = true,
+
+    atlas = 'consumables',
+	pos = { x = 0, y = 0 },
+
+    config = {},
+
+    loc_vars = function(self, info_queue, card)
+    end,
+
+    use = function (self, card, area, copier)
+        --G.jokers.highlighted[1].keychains['kch_bda_jimbo'] = G.keychains['kch_bda_jimbo']
+        --G.jokers.highlighted[1].ability[#G.jokers.highlighted[1].ability + 1] = G.keychains['kch_bda_jimbo']
+        G.jokers.highlighted[1]:set_keychain('kch_bda_jimbo')
+    end, 
+
+    can_use = function(self, card)
+        return true
+    end
+
+}
+
 local content = {
     wild_shard,
-    perseverance
+    perseverance,
+    test
 }
 for _, v in ipairs(content) do
     SMODS.Consumable(v)
