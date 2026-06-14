@@ -31,3 +31,7 @@ SMODS.Sound({
     key = "chomp",
 	path = "chomp.ogg"
 })
+SMODS.Sound({
+    key = "keychain",
+	path = "keychain.ogg"
+})

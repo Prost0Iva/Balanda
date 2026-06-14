@@ -14,6 +14,7 @@ SMODS.Keychain = SMODS.GameObject:extend {
             end
             self.name = self.name or self.key
             SMODS.Keychain.super.register(self)
+            self.order = #self.obj_buffer
         end,
     pre_inject_class = function(self)
             G.shared_keychains = G.shared_keychains or {}
@@ -23,6 +24,7 @@ SMODS.Keychain = SMODS.GameObject:extend {
             G.shared_keychains[self.key] = self.keychain_sprite
             G.BADGE_COL = G.BADGE_COL or {}
             G.BADGE_COL['bda_keychains'] = self.badge_colour
+            G.keychains_limit = G.keychains_limit or 5
         end,
     process_loc_text = function(self)
             SMODS.process_loc_text(G.localization.descriptions.Keychains, self.key, self.loc_txt)
@@ -34,9 +36,15 @@ SMODS.Keychain = SMODS.GameObject:extend {
     default_compat = true,
     sets = {Joker = true},
     needs_enable_flag = true,
-    apply = function(self, card, val)
+    apply = function(self, card, val, silent)
         card.keychains = card.keychains or {}
-        card.keychains[self.key] = val
+        if (not card.local_keychains_limit and #card.keychains >= G.keychains_limit) or (card.local_keychains_limit and #card.keychains >= card.local_keychains_limit) then
+            table.remove(card.keychains, 1)
+        end
+        card.keychains[self.key] = {
+            ref = self,         -- ссылка на объект кейчейна
+            ability = copy_table(self.config) -- данные
+        }
     end,
 }
 
@@ -45,27 +53,59 @@ SMODS.DrawStep {
     order = 35,
     func = function(self, layer)
         if self.keychains and next(self.keychains) then
+            local transforms = get_keychain_transforms(self.keychains)
             for k, v in pairs(self.keychains) do
+                local t = transforms[k]
                 G.shared_keychains[k].role.draw_major = self
-                G.shared_keychains[k]:draw_shader('dissolve', nil, nil, nil, self.children.center, nil, nil, 1.014, 2.299)
+                G.shared_keychains[k]:draw_shader('dissolve', nil, nil, nil, self.children.center, nil, t.mr, t.mx, t.my)
             end
         end
     end
 }
 
-function Card:set_keychain(_keychain)
+function get_keychain_transforms(keychains)
+    local base_x = 1.014      -- базовое смещение x
+    local base_y = 2.299      -- базовое смещение y
+    local angle_step = 0.175  -- угол между кейчейнами в радианах
+    local x_step = 0.2       -- смещение по x между кейчейнами
+    local y_step = -0.1      -- смещение по y между кейчейнами
+
+    local transforms = {}
+    local keys = {}
+    for k, v in pairs(keychains) do
+        if v then table.insert(keys, k) end
+    end
+    local count = #keys
+
+    for i, k in ipairs(keys) do
+        local offset = i - (count + 1) / 2  -- центрируем
+        transforms[k] = {
+            mx = base_x + offset * x_step,
+            my = base_y + offset * y_step,
+            mr = -offset * angle_step
+        }
+    end
+
+    return transforms
+end
+
+function Card:set_keychain(_keychain, silent)
+    silent = silent or false
+    if not silent then play_sound('bda_keychain') end
+    self:juice_up()
     SMODS.Keychains[_keychain]:apply(self, true)
     SMODS.enh_cache:write(self, nil)
 end
 
-function Card:calculate_keychain(context, key)
+function Card:calculate_keychain(context)
     if not self.keychains then return end
-    local keychain = SMODS.Keychains[key]
-    if self.keychains[key] and type(keychain.calculate) == 'function' then
-        local o = keychain:calculate(self, context)
-        if o then
-            if not o.card then o.card = self end
-            return o
+    for k, v in pairs(self.keychains) do
+        if type(v.ref.calculate) == 'function' then
+            local o = v.ref:calculate(self, context)
+            if o then
+                if not o.card then o.card = self end
+                return o
+            end
         end
     end
 end
