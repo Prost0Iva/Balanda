@@ -66,9 +66,9 @@ SMODS.DrawStep {
 function get_keychain_transforms(keychains)
     local base_x = 1.014      -- базовое смещение x
     local base_y = 2.299      -- базовое смещение y
-    local angle_step = 0.175  -- угол между кейчейнами в радианах
-    local x_step = 0.2       -- смещение по x между кейчейнами
-    local y_step = -0.1      -- смещение по y между кейчейнами
+    local angle_step = 0.2    -- угол между кейчейнами в радианах
+    local x_step = 0.25        -- смещение по x между кейчейнами
+    local y_step = -0.1       -- смещение по y между кейчейнами
 
     local transforms = {}
     local keys = {}
@@ -97,15 +97,15 @@ function Card:set_keychain(_keychain, silent)
     SMODS.enh_cache:write(self, nil)
 end
 
-function Card:calculate_keychain(context)
+function Card:calculate_keychain(context, key)
     if not self.keychains then return end
-    for k, v in pairs(self.keychains) do
-        if type(v.ref.calculate) == 'function' then
-            local o = v.ref:calculate(self, context)
-            if o then
-                if not o.card then o.card = self end
-                return o
-            end
+    local v = self.keychains[key]
+    if v and type(v.ref.calculate) == 'function' then
+        --sendDebugMessage('Вызывается функция калкулэйт у рефа')
+        local o = v.ref:calculate(self, context)
+        if o then
+            if not o.card then o.card = self end
+            return o
         end
     end
 end

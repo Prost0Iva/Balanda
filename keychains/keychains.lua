@@ -10,8 +10,8 @@ SMODS.Keychain{
     calculate = function(self, card, context)
         if context.joker_main then
             if card then
-                sendDebugMessage(tostring(card.keychains[self.key].ability.extra))
-                sendDebugMessage(self.key)
+                --sendDebugMessage(tostring(card.keychains[self.key].ability.extra))
+                --sendDebugMessage(self.key)
             end
             return {
 			    mult = card.keychains[self.key].ability.extra
@@ -32,8 +32,8 @@ SMODS.Keychain{
     calculate = function(self, card, context)
         if context.joker_main then
             if card then
-                sendDebugMessage(tostring(card.keychains[self.key].ability.extra))
-                sendDebugMessage(self.key)
+                --sendDebugMessage(tostring(card.keychains[self.key].ability.extra))
+                --sendDebugMessage(self.key)
             end
             return {
 			    chips = card.keychains[self.key].ability.extra

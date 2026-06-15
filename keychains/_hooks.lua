@@ -4,18 +4,13 @@ function eval_card(card, context)
 
     if card.keychains and next(card.keychains) and (context.cardarea == G.jokers or context.card == G.consumeables or context.repetition_only) then
         for k, v in pairs(card.keychains) do
-            local keychain = card:calculate_keychain(context)
+            --sendDebugMessage('Кейчейн вызывает функцию калкулэйт кейчейн')
+            local keychain = card:calculate_keychain(context, k)
             if keychain then
-                ret[v.ref] = keychain
+                sendDebugMessage('Шото добавилось в ret')
+                ret[k] = keychain
             end
         end
-        --for _,k in ipairs(SMODS.Keychain.obj_buffer) do
-        --    local v = SMODS.Keychains[k]
-        --    local keychain = card:calculate_keychain(context, k)
-        --    if keychain then
-        --        ret[v] = keychain
-        --    end
-        --end
     end
 
     return ret, post
@@ -27,19 +22,21 @@ SMODS.trigger_effects = function(effects, card)
     
     for _, effect_table in ipairs(effects) do
         if card then
+            --sendDebugMessage('Карта есть')
             if card.keychains and next(card.keychains) then
                 for k, v in pairs(card.keychains) do
-                    SMODS.calculate_effect_table_key(effect_table, v.ref, card, ret)
+                    --sendDebugMessage('Функция калкулэйт эффект вызывается')
+                    --for k,v in pairs(ret) do
+                    --    sendDebugMessage(k.." : "..tostring(v))
+                    --end
+                    --for k, v in pairs(effect_table) do
+                    --    sendDebugMessage('effect_table key: '..tostring(k)..' val: '..tostring(v))
+                    --end
+                    SMODS.calculate_effect_table_key(effect_table, k, card, ret)
                 end
             end
         end
     end
-    --for _, effect_table in ipairs(effects) do
-    --    for _, k in ipairs(SMODS.Keychain.obj_buffer) do
-    --        local v = SMODS.Keychains[k]
-    --        SMODS.calculate_effect_table_key(effect_table, v, card, ret)
-    --    end
-    --end
 
     return ret
 end
