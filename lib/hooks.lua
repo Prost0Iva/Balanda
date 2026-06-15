@@ -14,9 +14,7 @@ function Game:init_game_object() --Хук на добавление своих �
 	local g = bda_igo(self)
 
     g.bda_fools_count = 0
-    g.bda_fleamarket = {
-        joker_max = 5
-    }
+    
     g.bda_small_wins = 0
     g.bda_big_wins = 0
     g.bda_boss_wins = 0

@@ -1,3 +1,10 @@
+SMODS.Rarity{ --добавление своей редкости
+    key = "evo",
+    badge_colour = HEX("9415e3"),
+    text_colour = HEX("ffd18a"),
+    default_weight = 0
+}
+
 local joker = { --Evo Joker
     key = "joker",
     rarity = "bda_evo",

@@ -9,6 +9,7 @@ local ena = {key = 'ena', path = 'Ena.png', atlas_table = 'ANIMATION_ATLAS', fra
 local stickers = {key = 'stickers', path = 'Stickers.png', px = 71, py = 95}
 local keychains = {key = 'keychains', path = 'Keychains.png', px = 36, py = 48}
 local packaging = {key = 'packaging', path = 'Packaging.png', px = 71, py = 95}
+local tasks = {key = 'tasks', path = 'Tasks.png', px = 71, py = 95}
 
 local content = {
     vouchers,
@@ -22,7 +23,7 @@ local content = {
     stickers,
     keychains,
     packaging,
-
+    tasks,
 }
 
 for _, v in ipairs(content) do

@@ -3,9 +3,11 @@ return {
         dictionary = {
             b_keychains = "Keychains",
             b_packaging_cards = 'Packaging',
-            k_packaging = 'Packaging',
+            b_take = 'Take',
 
+            k_packaging = 'Packaging',
             k_bda_evo = "Evolution",
+            k_bda_task = "Task",
             k_bda_mine = "Mine",
             k_bda_gorgon = "See You",
             k_bda_ena = "Bless you for your business",
@@ -335,11 +337,11 @@ return {
                 name = "Diamond Card",
                 text = {
                     "{C:money}$#1#{} when {C:red}discard{} is used",
-                    "{X:chips,C:white}X#2#{} Chips for each {C:money}$#3#",
+                    "{C:chips}+#2#{} Chips for each {C:money}$#3#",
                     "after playing Jokers",
                     "if this card is held in hand",
-                    "{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive})",
-                    "{C:inactive}(Max {X:chips,C:white}X#5#{C:inactive})"
+                    "{C:inactive}(Currently {C:chips}+#4#{C:inactive})",
+                    "{C:inactive}(Max {C:chips}+#5#{C:inactive})"
                 }
             }
         },
