@@ -1,6 +1,8 @@
 return {
     misc = {
         dictionary = {
+            ph_diversify_run="Diversify your run!",
+
             b_keychains = "Keychains",
             b_packaging_cards = 'Packaging',
             b_take = 'Take',
@@ -81,6 +83,13 @@ return {
                 name = "Lucky Penny",
                 text = {
                     "{C:money}$#1#{}",
+                }
+            },
+            kch_bda_tamagotchi = {
+                name = "Tamagotchi",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "{C:mult}+#2#{} Mult",
                 }
             },
         },
@@ -326,6 +335,13 @@ return {
             },
             c_bda_lucky_penny = {
                 name = "Lucky Penny Packaging",
+                text = {
+                    "Attaches a {C:attention}Keychain{} to a",
+                    "selected {C:attention}Joker",
+                },
+            },
+            c_bda_tamagotchi = {
+                name = "Tamagotchi Packaging",
                 text = {
                     "Attaches a {C:attention}Keychain{} to a",
                     "selected {C:attention}Joker",

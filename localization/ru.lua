@@ -250,11 +250,11 @@ return {
                 name = "Алмазная карта",
                 text = {
                     "{C:money}$#1#{} при использовании {C:red}сброса",
-                    "{X:chips,C:white}X#2#{} фишек за каждые {C:money}$#3#",
+                    "{C:chips}+#2#{} фишек за каждые {C:money}$#3#",
                     "после разыгрывание джокеров,",
                     "пока эта карта остается в руке",
-                    "{C:inactive}(сейчас {X:chips,C:white}X#4#{C:inactive})",
-                    "{C:inactive}(макс. {X:chips,C:white}X#5#{C:inactive})"
+                    "{C:inactive}(сейчас {C:chips}+#4#{C:inactive})",
+                    "{C:inactive}(макс. {C:chips}+#5#{C:inactive})"
                 }
             }
         }

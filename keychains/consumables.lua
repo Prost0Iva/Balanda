@@ -31,7 +31,7 @@ local jimbo = {
     end, 
 
     can_use = function(self, card)
-        if G.jokers and #G.jokers.highlighted == 1 then
+        if G.jokers and #G.jokers.highlighted == 1 and (not G.jokers.highlighted[1].keychains or not G.jokers.highlighted[1].keychains["kch_bda_"..self.key]) then
             return true
         end
     end
@@ -56,7 +56,7 @@ local jolly = {
     end, 
 
     can_use = function(self, card)
-        if G.jokers and #G.jokers.highlighted == 1 then
+        if G.jokers and #G.jokers.highlighted == 1 and (not G.jokers.highlighted[1].keychains or not G.jokers.highlighted[1].keychains["kch_bda_"..self.key]) then
             return true
         end
     end
@@ -81,7 +81,7 @@ local perkeo = {
     end, 
 
     can_use = function(self, card)
-        if G.jokers and #G.jokers.highlighted == 1 then
+        if G.jokers and #G.jokers.highlighted == 1 and (not G.jokers.highlighted[1].keychains or not G.jokers.highlighted[1].keychains["kch_bda_"..self.key]) then
             return true
         end
     end
@@ -106,7 +106,7 @@ local miku = {
     end, 
 
     can_use = function(self, card)
-        if G.jokers and #G.jokers.highlighted == 1 then
+        if G.jokers and #G.jokers.highlighted == 1 and (not G.jokers.highlighted[1].keychains or not G.jokers.highlighted[1].keychains["kch_bda_"..self.key]) then
             return true
         end
     end
@@ -131,7 +131,32 @@ local lucky_penny = {
     end, 
 
     can_use = function(self, card)
-        if G.jokers and #G.jokers.highlighted == 1 then
+        if G.jokers and #G.jokers.highlighted == 1 and (not G.jokers.highlighted[1].keychains or not G.jokers.highlighted[1].keychains["kch_bda_"..self.key]) then
+            return true
+        end
+    end
+
+}
+local tamagotchi = {
+    set = 'packaging',
+    key = "tamagotchi",
+    unlocked = true,
+    discovered = false,
+
+    atlas = 'packaging',
+	pos = { x = 0, y = 1 },
+
+    config = {},
+
+    loc_vars = function(self, info_queue, card)
+    end,
+
+    use = function (self, card, area, copier)
+        G.jokers.highlighted[1]:set_keychain('kch_bda_tamagotchi')
+    end, 
+
+    can_use = function(self, card)
+        if G.jokers and #G.jokers.highlighted == 1 and (not G.jokers.highlighted[1].keychains or not G.jokers.highlighted[1].keychains["kch_bda_"..self.key]) then
             return true
         end
     end
@@ -144,6 +169,7 @@ local content = {
     perkeo,
     miku,
     lucky_penny,
+    tamagotchi,
 }
 for _, v in ipairs(content) do
     SMODS.Consumable(v)

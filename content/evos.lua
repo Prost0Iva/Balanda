@@ -36,7 +36,7 @@ local joker = { --Evo Joker
     },
 
     calculate = function(self, card, context)
-        local function contains(table, value) --функция, для проверки есть ли джокер в таблице
+        function contains(table, value) --функция, для проверки есть ли джокер в таблице
             for _, v in ipairs(table) do
                 if v == value then
                     return true
@@ -92,7 +92,7 @@ local joker = { --Evo Joker
                 }
             end
         end
-        evo_check_status(card, context)
+        evo_check_status(card, context, self.pos.x)
 	end,
 
     loc_vars = function (self, info_queue, card)
@@ -118,7 +118,7 @@ local joker = { --Evo Joker
     end
 }
 
-function evo_check_status(card, context) --Функция для подсчёта ходов эволюции
+function evo_check_status(card, context, x) --Функция для подсчёта ходов эволюции
     --Контекст, после подсчёта, чтобы изменить текстуру джокера и поменять значение эволюции
     if context.final_scoring_step then
         card.ability.evo_step = card.ability.evo_step + 1
@@ -129,7 +129,7 @@ function evo_check_status(card, context) --Функция для подсчёт�
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
                 card:juice_up(0.8, 0.5)
-                card.children.center:set_sprite_pos({x = 0, y = 0})
+                card.children.center:set_sprite_pos({x = x, y = 0})
             return true end }))
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
         end
@@ -137,7 +137,7 @@ function evo_check_status(card, context) --Функция для подсчёт�
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
                 card:juice_up(0.8, 0.5)
-                card.children.center:set_sprite_pos({x = 1, y = 0})
+                card.children.center:set_sprite_pos({x = x, y = 1})
             return true end }))
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() card:flip() return true end }))
             return {

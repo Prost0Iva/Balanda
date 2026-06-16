@@ -24,7 +24,7 @@ SMODS.Keychain = SMODS.GameObject:extend {
             G.shared_keychains[self.key] = self.keychain_sprite
             G.BADGE_COL = G.BADGE_COL or {}
             G.BADGE_COL['bda_keychains'] = self.badge_colour
-            G.keychains_limit = G.keychains_limit or 5
+            G.keychains_limit = G.keychains_limit or 3
         end,
     process_loc_text = function(self)
             SMODS.process_loc_text(G.localization.descriptions.Keychains, self.key, self.loc_txt)
@@ -38,8 +38,14 @@ SMODS.Keychain = SMODS.GameObject:extend {
     needs_enable_flag = true,
     apply = function(self, card, val, silent)
         card.keychains = card.keychains or {}
-        if (not card.local_keychains_limit and #card.keychains >= G.keychains_limit) or (card.local_keychains_limit and #card.keychains >= card.local_keychains_limit) then
-            table.remove(card.keychains, 1)
+        local kch = 0
+        for _ in pairs(card.keychains) do kch = kch + 1 end
+        if (card.local_keychains_limit == nil and kch >= G.keychains_limit) or (card.local_keychains_limit ~= nil and kch >= card.local_keychains_limit) then
+            local first_key = next(card.keychains)
+            if first_key then
+                card.keychains[first_key] = nil
+            end
+            sendWarnMessage('Ремувнулось')
         end
         card.keychains[self.key] = {
             ref = self,         -- ссылка на объект кейчейна
@@ -68,7 +74,7 @@ function get_keychain_transforms(keychains)
     local base_y = 2.299      -- базовое смещение y
     local angle_step = 0.2    -- угол между кейчейнами в радианах
     local x_step = 0.25        -- смещение по x между кейчейнами
-    local y_step = -0.1       -- смещение по y между кейчейнами
+    local y_step = -0.12       -- смещение по y между кейчейнами
 
     local transforms = {}
     local keys = {}

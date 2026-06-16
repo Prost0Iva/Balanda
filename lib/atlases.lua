@@ -10,6 +10,7 @@ local stickers = {key = 'stickers', path = 'Stickers.png', px = 71, py = 95}
 local keychains = {key = 'keychains', path = 'Keychains.png', px = 36, py = 48}
 local packaging = {key = 'packaging', path = 'Packaging.png', px = 71, py = 95}
 local tasks = {key = 'tasks', path = 'Tasks.png', px = 71, py = 95}
+local taskboard = {key = 'taskboard', path = 'Taskboard.png', px = 113, py = 57, atlas_table = 'ANIMATION_ATLAS', frames = 4, fps = 2}
 
 local content = {
     vouchers,
@@ -24,6 +25,7 @@ local content = {
     keychains,
     packaging,
     tasks,
+    taskboard,
 }
 
 for _, v in ipairs(content) do
