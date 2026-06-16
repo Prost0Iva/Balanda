@@ -5,8 +5,174 @@ SMODS.Rarity{
     default_weight = 0
 }
 
-function task_rarity()
-    return pseudorandom('task_rarity', 1, 3)
+function remove_value(t, val)
+    for i, v in ipairs(t) do
+        if v == val then
+            table.remove(t, i)
+            return
+        end
+    end
+end
+function contains(t, val)
+    for _, v in ipairs(t) do
+        if v == val then return true end
+    end
+    return false
+end
+function roll_rarity()
+    local roll = pseudorandom('task_rarity')
+    local rarity = { 
+        common = {.60, 1},
+        rare = {.11, .30},
+        legendary = {0, .10}
+    }
+    for k,v in pairs(rarity) do
+        if v[1] <= roll and roll <= v[2] then
+            return k
+        end
+    end
+end
+function missing_object(rar)
+    local missing_object = {}
+    local type = {'j', 'c'}
+    missing_object["type"] = type[pseudorandom('missing_type', 1, 2)]
+
+    if missing_object.type == 'j' then
+        local keys = {}
+        if rar == 'common' then
+            for k,v in pairs(G.P_CENTERS) do
+                if v.unlocked and v.rarity == 1 or v.rarity == 'common' then
+                    keys[#keys + 1] = k
+                end
+            end
+        end
+        if rar == 'rare' then
+            for k,v in pairs(G.P_CENTERS) do
+                if v.unlocked and v.rarity == 2 or v.rarity == 'uncommon' then
+                    keys[#keys + 1] = k
+                end
+            end
+        end
+        if rar == 'legendary' then
+            for k,v in pairs(G.P_CENTERS) do
+                if v.unlocked and v.rarity == 3 or v.rarity == 'rare' then
+                    keys[#keys + 1] = k
+                end
+            end
+        end
+        for k,v in pairs(G.jokers.cards) do
+            local k = v.config.center.key
+            if contains(keys, k) then
+                remove_value(keys, k)
+            end
+        end
+        missing_object["key"] = keys[pseudorandom('missing_key', 1, #keys)]
+
+    elseif missing_object.type == 'c' then
+        local keys = {}
+        if rar == 'common' then
+            for k,v in pairs(G.P_CENTERS) do
+                if v.unlocked and v.set == 'Tarot' then
+                    keys[#keys + 1] = k
+                end
+            end
+        end
+        if rar == 'rare' then
+            for k,v in pairs(G.P_CENTERS) do
+                if v.unlocked and v.set == 'Planet' then
+                    keys[#keys + 1] = k
+                end
+            end
+        end
+        if rar == 'legendary' then
+            for k,v in pairs(G.P_CENTERS) do
+                if v.unlocked and v.set == 'Spectral' then
+                    keys[#keys + 1] = k
+                end
+            end
+        end
+        for k,v in pairs(G.consumeables.cards) do
+            local k = v.config.center.key
+            if contains(keys, k) then
+                remove_value(keys, k)
+            end
+        end
+        missing_object["key"] = keys[pseudorandom('missing_key', 1, #keys)]
+    end
+    
+    return missing_object
+end
+function reward(rar)
+    local reward = {}
+    local types_common = {
+        d = {0, .45},     --45
+        tp = {.46, .75},  --30
+        s = {.76, .80},   --5
+        k = {.81, 1},     --20
+    }
+    local types_rare = {
+        d = {0, .35},     --35
+        tp = {.36, .65},  --30
+        s = {.66, .75},   --10
+        k = {.76, 1},     --25
+    }
+    local types_legendary = {
+        d = {0, .5},      --5
+        tp = {.6, .15},   --10
+        s = {.16, .40},   --25
+        k = {.41, 1},     --60
+    }
+    local roll = pseudorandom('reward_type')
+    if rar == 'common' then
+        for k,v in pairs(types_common) do
+            if not reward.type and v[1] <= roll and roll <= v[2] then
+                reward["type"] = k
+            end
+        end
+    elseif rar == 'rare' then
+        for k,v in pairs(types_rare) do
+            if not reward.type and v[1] <= roll and roll <= v[2] then
+                reward["type"] = k
+            end
+        end
+    elseif rar == 'legendary' then
+        for k,v in pairs(types_legendary) do
+            if not reward.type and v[1] <= roll and roll <= v[2] then
+                reward["type"] = k
+            end
+        end
+    end
+    if reward.type == 'd' then
+        if rar == 'common' then reward.val = 10 end
+        if rar == 'rare' then reward.val = 25 end
+        if rar == 'legendary' then reward.val = 50 end
+    elseif reward.type == 'tp' then
+        local keys = {}
+        for k,v in pairs(G.P_CENTERS) do
+            if v.unlocked and v.set == 'Tarot' or v.set == 'Planet' then
+                keys[#keys + 1] = k
+            end
+        end
+        reward.val = keys[pseudorandom('missing_key', 1, #keys)]
+    elseif reward.type == 's' then
+        local keys = {}
+        for k,v in pairs(G.P_CENTERS) do
+            if v.unlocked and v.set == 'Spectral' then
+                keys[#keys + 1] = k
+            end
+        end
+        reward.val = keys[pseudorandom('missing_key', 1, #keys)]
+    elseif reward.type == 'k' then
+        local keys = {}
+        for k,v in pairs(G.P_CENTERS) do
+            if v.unlocked and v.set == 'packaging' then
+                keys[#keys + 1] = k
+            end
+        end
+        reward.val = keys[pseudorandom('missing_key', 1, #keys)]
+    end
+
+    return reward
 end
 
 local task_missing = { --Missing
@@ -22,10 +188,31 @@ local task_missing = { --Missing
     unlocked = true,
 
     config = {
+        rarity = nil,
+        missing_object = nil,
+        reward = nil,
+
+        card_limit = 1
     },
 
     calculate = function(self, card, context)
+
 	end,
+
+    update = function(self, card, dt)
+        if card.ability.rarity == nil then
+            card.ability.rarity = roll_rarity()
+            sendDebugMessage(card.ability.rarity)
+        end
+        if card.ability.missing_object == nil then
+            card.ability.missing_object = missing_object(card.ability.rarity)
+            sendDebugMessage(card.ability.missing_object.key)
+        end
+        if card.ability.reward == nil then
+            card.ability.reward = reward(card.ability.rarity)
+            sendDebugMessage(card.ability.reward.type)
+        end
+    end,
 
     loc_vars = function (self, info_queue, card)
     end
@@ -44,6 +231,7 @@ local task_wanted = { --Wanted
     unlocked = true,
 
     config = {
+        card_limit = 1
     },
 
     calculate = function(self, card, context)
@@ -66,6 +254,7 @@ local task_other = { --Other
     unlocked = true,
 
     config = {
+        card_limit = 1
     },
 
     calculate = function(self, card, context)

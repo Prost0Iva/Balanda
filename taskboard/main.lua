@@ -126,7 +126,11 @@ G.taskboard_jokers = CardArea(
 end
 
 function create_tasks()
-  local tasks = {"j_bda_task_missing", "j_bda_task_wanted", "j_bda_task_other",}
+  local tasks = {
+    "j_bda_task_missing",
+    --"j_bda_task_wanted",
+    --"j_bda_task_other",
+  }
   for i = 1, G.GAME.bda_taskboard.tasks_max do
       local area = G.taskboard_jokers
       local card = create_card("Joker", area, nil, nil, nil, nil, tasks[pseudorandom('taskboard_tasks', 1, #tasks)])
