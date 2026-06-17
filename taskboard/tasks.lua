@@ -22,12 +22,12 @@ end
 function roll_rarity()
     local roll = pseudorandom('task_rarity')
     local rarity = { 
-        common = {.60, 1},
-        rare = {.11, .30},
-        legendary = {0, .10}
+        common = {0, .60},    --60
+        rare = {.61, .85},    --25
+        legendary = {.86, 1}  --15
     }
     for k,v in pairs(rarity) do
-        if v[1] <= roll and roll <= v[2] then
+        if v[1] < roll and roll <= v[2] then
             return k
         end
     end
@@ -72,21 +72,21 @@ function missing_object(rar)
         local keys = {}
         if rar == 'common' then
             for k,v in pairs(G.P_CENTERS) do
-                if v.unlocked and v.set == 'Tarot' then
+                if (v.unlocked == nil or v.unlocked) and v.set == 'Tarot' then
                     keys[#keys + 1] = k
                 end
             end
         end
         if rar == 'rare' then
             for k,v in pairs(G.P_CENTERS) do
-                if v.unlocked and v.set == 'Planet' then
+                if (v.unlocked == nil or v.unlocked) and v.set == 'Planet' then
                     keys[#keys + 1] = k
                 end
             end
         end
         if rar == 'legendary' then
             for k,v in pairs(G.P_CENTERS) do
-                if v.unlocked and v.set == 'Spectral' then
+                if (v.unlocked == nil or v.unlocked) and v.set == 'Spectral' then
                     keys[#keys + 1] = k
                 end
             end
@@ -97,6 +97,7 @@ function missing_object(rar)
                 remove_value(keys, k)
             end
         end
+        sendDebugMessage('колво ключей: '..#keys)
         missing_object["key"] = keys[pseudorandom('missing_key', 1, #keys)]
     end
     
@@ -125,19 +126,19 @@ function reward(rar)
     local roll = pseudorandom('reward_type')
     if rar == 'common' then
         for k,v in pairs(types_common) do
-            if not reward.type and v[1] <= roll and roll <= v[2] then
+            if not reward.type and v[1] < roll and roll <= v[2] then
                 reward["type"] = k
             end
         end
     elseif rar == 'rare' then
         for k,v in pairs(types_rare) do
-            if not reward.type and v[1] <= roll and roll <= v[2] then
+            if not reward.type and v[1] < roll and roll <= v[2] then
                 reward["type"] = k
             end
         end
     elseif rar == 'legendary' then
         for k,v in pairs(types_legendary) do
-            if not reward.type and v[1] <= roll and roll <= v[2] then
+            if not reward.type and v[1] < roll and roll <= v[2] then
                 reward["type"] = k
             end
         end
@@ -174,6 +175,28 @@ function reward(rar)
 
     return reward
 end
+function complete_task(card, rt, rv)
+    if rt == 'd' then
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function() 
+            ease_dollars(rv)
+            card:juice_up(0.3, 0.5)
+        return true end }))
+    else
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function()
+            local set = ''
+            for k,v in pairs(G.P_CENTERS) do
+                if k == rv then
+                    set = v.set
+                end
+            end 
+            local rew = create_card(set, G.consumeables, nil, nil, nil, nil, rv)
+            rew:set_edition('e_negative', true)
+            rew:add_to_deck()
+            G.consumeables:emplace(rew)
+            card:juice_up(0.3, 0.5)
+        return true end }))
+    end
+end
 
 local task_missing = { --Missing
     key = "task_missing",
@@ -191,6 +214,7 @@ local task_missing = { --Missing
         rarity = nil,
         missing_object = nil,
         reward = nil,
+        complete_status = false,
 
         card_limit = 1
     },
@@ -206,15 +230,49 @@ local task_missing = { --Missing
         end
         if card.ability.missing_object == nil then
             card.ability.missing_object = missing_object(card.ability.rarity)
+            sendDebugMessage(card.ability.missing_object.type)
             sendDebugMessage(card.ability.missing_object.key)
         end
         if card.ability.reward == nil then
             card.ability.reward = reward(card.ability.rarity)
-            sendDebugMessage(card.ability.reward.type)
+            sendDebugMessage(card.ability.reward.val)
+        end
+        if card.ability.missing_object.type == 'j' then
+            for k,v in ipairs(G.jokers.cards) do
+                if v.config.center.key == card.ability.missing_object.key then
+                    if not card.ability.complete_status then
+                        card.ability.complete_status = true
+                        complete_task(card, card.ability.reward.type, card.ability.reward.val)
+                        card:start_dissolve()
+                        return {
+                            message = localize('k_bda_task_complete')
+                        }
+                    end
+                end
+            end
+        elseif card.ability.missing_object.type == 'c' then
+            for k,v in ipairs(G.consumeables.cards) do
+                if v.config.center.key == card.ability.missing_object.key then
+                    if not card.ability.complete_status then
+                        card.ability.complete_status = true
+                        complete_task(card, card.ability.reward.type, card.ability.reward.val)
+                        card:start_dissolve()
+                        return {
+                            message = localize('k_bda_task_complete')
+                        }
+                    end
+                end
+            end
         end
     end,
 
     loc_vars = function (self, info_queue, card)
+        if card.ability.rarity ~= nil and card.ability.missing_object ~= nil and card.ability.reward ~= nil then
+            info_queue[#info_queue+1] = G.P_CENTERS[card.ability.missing_object.key]
+            if card.ability.reward.type ~= "d" then
+                info_queue[#info_queue+1] = G.P_CENTERS[card.ability.reward.val]
+            end
+        end
     end
 }
 

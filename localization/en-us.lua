@@ -14,6 +14,7 @@ return {
             k_bda_gorgon = "See You",
             k_bda_ena = "Bless you for your business",
             k_bda_ena1 = "WHERE THE HELL IS THE BOSS?!",
+            k_bda_task_complete = "Task Complete!",
 
             bda_sun = "Sunday",
             bda_mon = "Monday",

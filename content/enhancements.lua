@@ -14,7 +14,7 @@ local diamond = {
 
     loc_vars = function (self, info_queue, card)
         return {
-            vars = {card.ability.extra.dollars, card.ability.extra.x_per_dol, card.ability.extra.dol_req ,math.min((math.floor(G.GAME.dollars / card.ability.extra.dol_req) * card.ability.extra.chips_per_dol), card.ability.extra.max), card.ability.extra.max}
+            vars = {card.ability.extra.dollars, card.ability.extra.chips_per_dol, card.ability.extra.dol_req ,math.min((math.floor(G.GAME.dollars / card.ability.extra.dol_req) * card.ability.extra.chips_per_dol), card.ability.extra.max), card.ability.extra.max}
         }
     end,
 
